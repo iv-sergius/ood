@@ -33,12 +33,14 @@ protected:
 
 class CQuack : public IQuackBehavior
 {
-	// реализация кряканья
+public:
+	void Quack() override {}
 };
 
 class CFlyWithWings : public IFlyBehavior
 {
-	// реализация полета
+public:
+	void Fly() override {}
 };
 
 
