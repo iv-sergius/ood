@@ -2,55 +2,62 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <climits>
+#include "Observer.h"
 
 using namespace std;
 
-class IObserver
+struct SWeatherInfo
 {
-public:
-	virtual void Update(double temp, double humidity, double pressure) = 0;
-protected:
-	~IObserver() = default;
+	double m_temp = 0;
+	double m_humidity = 0;
+	double m_pressure = 0;
 };
 
-class CDisplay: public IObserver
+class CDisplay: public IObserver<SWeatherInfo>
 {
 public:
-	void Update(double temp, double humidity, double pressure) override
+	void Update(SWeatherInfo const& data) override
 	{
-		std::cout << "Current Temp " << temp << std::endl;
-		std::cout << "Current Hum " << humidity << std::endl;
-		std::cout << "Current Pressure " << pressure << std::endl;
+		std::cout << "Current Temp " << data.m_temp << std::endl;
+		std::cout << "Current Hum " << data.m_humidity << std::endl;
+		std::cout << "Current Pressure " << data.m_pressure << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 };
 
-class IObservable
+class CStatsDisplay : public IObserver<SWeatherInfo>
 {
 public:
-	virtual ~IObservable() = default;
-	virtual void RegisterObserver(IObserver & observer) = 0;
-	virtual void NotifyObservers() = 0;
+	void Update(SWeatherInfo const& data) override
+	{
+		if (m_minTemperature > data.m_temp)
+		{
+			m_minTemperature = data.m_temp;
+		}
+		if (m_maxTemperature < data.m_temp)
+		{
+			m_maxTemperature = data.m_temp;
+		}
+		m_accTemperature += data.m_temp;
+		++m_countAcc;
+
+		std::cout << "Max Temp " << m_maxTemperature << std::endl;
+		std::cout << "Min Temp " << m_minTemperature << std::endl;
+		std::cout << "Average Temp " << (m_accTemperature / m_countAcc) << std::endl;
+		std::cout << "----------------" << std::endl;
+	}
+private:
+	double m_minTemperature = std::numeric_limits<double>::infinity();
+	double m_maxTemperature = -std::numeric_limits<double>::infinity();
+	double m_accTemperature = 0;
+	unsigned m_countAcc = 0;
+
 };
 
-class CWeatherData : public IObservable
+class CWeatherData : public CObservable<SWeatherInfo>
 {
 public:
-	void RegisterObserver(IObserver & observer) override
-	{
-		m_observers.push_back(observer);
-	}
-
-	void NotifyObservers() override
-	{
-		double temp = GetTemperature();
-		double humidity = GetHumidity();
-		double pressure = GetPressure();
-		for (auto & observer : m_observers)
-		{
-			observer.get().Update(temp, humidity, pressure);
-		}
-	}
 	// Температура в градусах Цельсия
 	double GetTemperature()const
 	{
@@ -79,10 +86,16 @@ public:
 		m_pressure = pressure;
 		MeasurementsChanged();
 	}
-
+protected:
+	SWeatherInfo GetChangedData()const override
+	{
+		SWeatherInfo info;
+		info.m_temp = GetTemperature();
+		info.m_humidity = GetHumidity();
+		info.m_pressure = GetPressure();
+		return info;
+	}
 private:
-	vector<reference_wrapper<IObserver>> m_observers;
-
 	double m_temperature = 0.0;
 	double m_humidity = 0.0;	
 	double m_pressure = 760.0;	
