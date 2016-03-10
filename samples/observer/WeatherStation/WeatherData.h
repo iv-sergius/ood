@@ -8,15 +8,15 @@ using namespace std;
 class IObserver
 {
 public:
-	virtual void Update() = 0;
+	virtual void Update(double temp, double humidity, double pressure) = 0;
 protected:
 	~IObserver() = default;
 };
 
-class CDisplay
+class CDisplay: public IObserver
 {
 public:
-	void Update(double temp, double humidity, double pressure)
+	void Update(double temp, double humidity, double pressure) override
 	{
 		std::cout << "Current Temp " << temp << std::endl;
 		std::cout << "Current Hum " << humidity << std::endl;
@@ -43,9 +43,12 @@ public:
 
 	void NotifyObservers() override
 	{
+		double temp = GetTemperature();
+		double humidity = GetHumidity();
+		double pressure = GetPressure();
 		for (auto & observer : m_observers)
 		{
-			observer.get().Update();
+			observer.get().Update(temp, humidity, pressure);
 		}
 	}
 	// Температура в градусах Цельсия
@@ -66,13 +69,7 @@ public:
 
 	void MeasurementsChanged()
 	{
-		double temp = GetTemperature();
-		double humidity = GetHumidity();
-		double pressure = GetPressure();
-
-		m_currentConditionsDisplay.Update(temp, humidity, pressure);
-		m_statisticsDisplay.Update(temp, humidity, pressure);
-		m_forecastDisplay.Update(temp, humidity, pressure);
+		NotifyObservers();
 	}
 
 	void SetMeasurements(double temp, double humidity, double pressure)
@@ -86,9 +83,6 @@ public:
 private:
 	vector<reference_wrapper<IObserver>> m_observers;
 
-	CDisplay m_currentConditionsDisplay;
-	CDisplay m_statisticsDisplay;
-	CDisplay m_forecastDisplay;
 	double m_temperature = 0.0;
 	double m_humidity = 0.0;	
 	double m_pressure = 760.0;	
