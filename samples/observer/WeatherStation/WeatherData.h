@@ -9,9 +9,9 @@ using namespace std;
 
 struct SWeatherInfo
 {
-	double m_temp = 0;
-	double m_humidity = 0;
-	double m_pressure = 0;
+	double temperature = 0;
+	double humidity = 0;
+	double pressure = 0;
 };
 
 class CDisplay: public IObserver<SWeatherInfo>
@@ -19,9 +19,9 @@ class CDisplay: public IObserver<SWeatherInfo>
 public:
 	void Update(SWeatherInfo const& data) override
 	{
-		std::cout << "Current Temp " << data.m_temp << std::endl;
-		std::cout << "Current Hum " << data.m_humidity << std::endl;
-		std::cout << "Current Pressure " << data.m_pressure << std::endl;
+		std::cout << "Current Temp " << data.temperature << std::endl;
+		std::cout << "Current Hum " << data.humidity << std::endl;
+		std::cout << "Current Pressure " << data.pressure << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
 };
@@ -31,15 +31,15 @@ class CStatsDisplay : public IObserver<SWeatherInfo>
 public:
 	void Update(SWeatherInfo const& data) override
 	{
-		if (m_minTemperature > data.m_temp)
+		if (m_minTemperature > data.temperature)
 		{
-			m_minTemperature = data.m_temp;
+			m_minTemperature = data.temperature;
 		}
-		if (m_maxTemperature < data.m_temp)
+		if (m_maxTemperature < data.temperature)
 		{
-			m_maxTemperature = data.m_temp;
+			m_maxTemperature = data.temperature;
 		}
-		m_accTemperature += data.m_temp;
+		m_accTemperature += data.temperature;
 		++m_countAcc;
 
 		std::cout << "Max Temp " << m_maxTemperature << std::endl;
@@ -66,12 +66,12 @@ public:
 	// Относительная влажность (0...100)
 	double GetHumidity()const
 	{
-		return m_humidity;
+		return humidity;
 	}
 	// Атмосферное давление (в мм.рт.ст)
 	double GetPressure()const
 	{
-		return m_pressure;
+		return pressure;
 	}
 
 	void MeasurementsChanged()
@@ -81,22 +81,23 @@ public:
 
 	void SetMeasurements(double temp, double humidity, double pressure)
 	{
-		m_humidity = humidity;
+		humidity = humidity;
 		m_temperature = temp;
-		m_pressure = pressure;
+		pressure = pressure;
+
 		MeasurementsChanged();
 	}
 protected:
 	SWeatherInfo GetChangedData()const override
 	{
 		SWeatherInfo info;
-		info.m_temp = GetTemperature();
-		info.m_humidity = GetHumidity();
-		info.m_pressure = GetPressure();
+		info.temperature = GetTemperature();
+		info.humidity = GetHumidity();
+		info.pressure = GetPressure();
 		return info;
 	}
 private:
 	double m_temperature = 0.0;
-	double m_humidity = 0.0;	
-	double m_pressure = 760.0;	
+	double humidity = 0.0;	
+	double pressure = 760.0;	
 };
