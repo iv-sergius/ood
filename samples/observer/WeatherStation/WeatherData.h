@@ -16,7 +16,11 @@ struct SWeatherInfo
 
 class CDisplay: public IObserver<SWeatherInfo>
 {
-public:
+private:
+	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
+		Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
+		остается публичным
+	*/
 	void Update(SWeatherInfo const& data) override
 	{
 		std::cout << "Current Temp " << data.temperature << std::endl;
@@ -28,7 +32,11 @@ public:
 
 class CStatsDisplay : public IObserver<SWeatherInfo>
 {
-public:
+private:
+	/* Метод Update сделан приватным, чтобы ограничить возможность его вызова напрямую
+	Классу CObservable он будет доступен все равно, т.к. в интерфейсе IObserver он
+	остается публичным
+	*/
 	void Update(SWeatherInfo const& data) override
 	{
 		if (m_minTemperature > data.temperature)
@@ -47,7 +55,7 @@ public:
 		std::cout << "Average Temp " << (m_accTemperature / m_countAcc) << std::endl;
 		std::cout << "----------------" << std::endl;
 	}
-private:
+
 	double m_minTemperature = std::numeric_limits<double>::infinity();
 	double m_maxTemperature = -std::numeric_limits<double>::infinity();
 	double m_accTemperature = 0;
