@@ -10,7 +10,7 @@ public:
 	virtual string GetDescription() const = 0;	// Название
 	virtual double GetCost()const = 0;			// Стоимость
 	virtual void SetChocolateSyrup(bool hasSyrup) = 0;
-	virtual void HasChocolateSyrup()const = 0;
+	virtual bool HasChocolateSyrup()const = 0;
 	virtual ~IBeverage() = default;
 };
 
@@ -35,9 +35,9 @@ public:
 	{
 		m_hasChocolateSyrup = hasSyrup;
 	}
-	virtual void HasChocolateSyrup()const override final
+	virtual bool HasChocolateSyrup()const override final
 	{
-		return m_hasChocolateSyrup
+		return m_hasChocolateSyrup;
 	}
 	/*  остальные методы */
 private:
