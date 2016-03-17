@@ -127,12 +127,54 @@ protected:
 	}
 };
 
+/*
+struct MakeLemon 
+{
+	auto operator()(unique_ptr<IBeverage> && beverage)const { return make_unique<CLemon>(move(beverage)); }
+};
+struct MakeCinnamon
+{
+	auto operator()(unique_ptr<IBeverage> && beverage)const { return make_unique<CCinnamon>(move(beverage)); }
+};*/
+
+template <typename Condiment>
+struct MakeCondiment
+{
+	auto operator()(unique_ptr<IBeverage> && b)const
+	{
+		return make_unique<Condiment>(move(b));
+	}
+};
+
+/*
+unique_ptr<IBeverage> operator << (unique_ptr<IBeverage> && lhs, const MakeLemon & factory)
+{
+	return factory(move(lhs));
+}
+
+unique_ptr<IBeverage> operator << (unique_ptr<IBeverage> && lhs, const MakeCinnamon & factory)
+{
+	return factory(move(lhs));
+}
+*/
+template <typename CondimentFactory>
+unique_ptr<IBeverage> operator << (unique_ptr<IBeverage> && lhs, const CondimentFactory & factory)
+{
+	return factory(move(lhs));
+}
+
 
 int main()
 {
+	auto beverage = make_unique<CCoffee>() 
+		<< MakeCondiment<CCinnamon>() 
+		<< MakeCondiment<CLemon>();
+
+	/*
 	auto coffee = make_unique<CCoffee>();
 	auto cinnamon = make_unique<CCinnamon>(move(coffee));
-	//cout << cinnamon->GetDescription() << " costs " << cinnamon->GetCost() << endl;
 	auto lemon = make_unique<CLemon>(move(cinnamon));
-	cout << lemon->GetDescription() << " costs " << lemon->GetCost() << endl;
+	*/
+
+	cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
 }
