@@ -109,9 +109,30 @@ protected:
 	}
 };
 
+// Лимон
+class CLemon : public CCondimentDecorator
+{
+public:
+	CLemon(unique_ptr<IBeverage> && beverage)
+		: CCondimentDecorator(move(beverage))
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 10;
+	}
+	string GetCondimentDescription()const override
+	{
+		return "Lemon";
+	}
+};
+
+
 int main()
 {
 	auto coffee = make_unique<CCoffee>();
 	auto cinnamon = make_unique<CCinnamon>(move(coffee));
-	cout << cinnamon->GetDescription() << " costs " << cinnamon->GetCost() << endl;
+	//cout << cinnamon->GetDescription() << " costs " << cinnamon->GetCost() << endl;
+	auto lemon = make_unique<CLemon>(move(cinnamon));
+	cout << lemon->GetDescription() << " costs " << lemon->GetCost() << endl;
 }
