@@ -1,5 +1,6 @@
 ﻿#include <iostream>
 #include <string>
+#include <memory>
 
 using namespace std;
 
@@ -7,90 +8,110 @@ using namespace std;
 class IBeverage
 {
 public:
-	virtual string GetDescription() const = 0;	// Название
-	virtual double GetCost()const = 0;			// Стоимость
-	virtual void SetChocolateSyrup(bool hasSyrup) = 0;
-	virtual bool HasChocolateSyrup()const = 0;
+	virtual string GetDescription() const = 0;
+	virtual double GetCost()const = 0;
 	virtual ~IBeverage() = default;
 };
 
 class CBeverage : public IBeverage
 {
 public:
-	string GetDescription()const override
+	CBeverage(const string & description)
+		:m_description(description)
+	{}
+
+	string GetDescription()const override final
 	{
-		string desc;
-		if (m_hasChocolateCrumbs) desc += ", chocolate crumbs";
-		// ...
-		return desc;
+		return m_description;
 	}
-	double GetCost()const override
-	{
-		double cost = 0;
-		if (m_hasChocolateSyrup) cost += 30;
-		// ...
-		return cost;
-	}
-	virtual void SetChocolateSyrup(bool hasSyrup) override final
-	{
-		m_hasChocolateSyrup = hasSyrup;
-	}
-	virtual bool HasChocolateSyrup()const override final
-	{
-		return m_hasChocolateSyrup;
-	}
-	/*  остальные методы */
 private:
-	bool m_hasChocolateSyrup = false;
-	bool m_hasCinnamon = false;
-	bool m_hasLemon = false;
-	bool m_hasIce = false;
-	bool m_hasChocolateCrumbs = false;
-	bool m_hasCoconutFlakes = false;
+	string m_description;
 };
 
 // Кофе
 class CCoffee : public CBeverage
 {
 public:
-	string GetDescription() const override { return "Coffee" + CBeverage::GetDescription(); }
-	double GetCost() const { return 60 + CBeverage::GetCost(); }
+	CCoffee(const string& description = "Coffee") :CBeverage(description) {}
+	double GetCost() const override { return 60; }
 };
 
 // Капуччино
 class CCapuccino : public CCoffee
 {
 public:
-	string GetDescription() const override { return "Capuccino"; }
-	double GetCost() const { return 80; }
+	CCapuccino() :CCoffee("Capuccino") {}
+	double GetCost() const override { return 80; }
 };
 
 // Латте
 class CLatte : public CCoffee
 {
 public:
-	string GetDescription() const override { return "Latte"; }
-	double GetCost() const { return 90; }
+	CLatte() :CCoffee("Latte") {}
+	double GetCost() const override { return 90; }
 };
 
 // Чай
-class CTea : public IBeverage
+class CTea : public CBeverage
 {
 public:
-	string GetDescription() const override { return "Tea"; }
+	CTea() :CBeverage("Tea") {}
 	double GetCost() const override { return 30; }
 };
 
 // Молочный коктейль
-class CMilkshake : public IBeverage
+class CMilkshake : public CBeverage
 {
 public:
-	string GetDescription() const override { return "Milkshake"; }
+	CMilkshake() :CBeverage("Milkshake") {}
 	double GetCost() const override { return 80; }
 };
 
+// Декоратор "добавка к напитку"
+class CCondimentDecorator : public IBeverage
+{
+public:
+	string GetDescription()const override
+	{
+		return m_beverage->GetDescription() + ", " + GetCondimentDescription();
+	}
+	double GetCost()const override
+	{
+		return m_beverage->GetCost() + GetCondimentCost();
+	}
+protected:
+	CCondimentDecorator(unique_ptr<IBeverage> && beverage)
+		: m_beverage(move(beverage))
+	{
+	}
+	virtual string GetCondimentDescription()const = 0;
+	virtual double GetCondimentCost()const = 0;
+private:
+	unique_ptr<IBeverage> m_beverage;
+};
+
+// Корица
+class CCinnamon : public CCondimentDecorator
+{
+public:
+	CCinnamon(unique_ptr<IBeverage> && beverage) 
+		: CCondimentDecorator(move(beverage)) 
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 20;
+	}
+	string GetCondimentDescription()const override
+	{
+		return "Cinnamon";
+	}
+};
 
 int main()
 {
-
+	auto coffee = make_unique<CCoffee>();
+	auto cinnamon = make_unique<CCinnamon>(move(coffee));
+	cout << cinnamon->GetDescription() << " costs " << cinnamon->GetCost() << endl;
 }
