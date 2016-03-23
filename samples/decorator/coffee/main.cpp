@@ -36,20 +36,19 @@ function<IBeveragePtr(IBeveragePtr &&)> MakeCinnamon()
 }
 
 /*
-Функция, которая возвращает функцию, конструирующую произвольную добавку.
-Аргументы функции MakeCondiment захватываются возвращаемой функцией и передаются
-конструктору указанной добавки следом за декорируемым напитком
+Возвращает функцию, декорирующую напиток определенной добавкой
 
 Параметры шаблона: 
 	Condiment - класс добавки, конструктор которого в качестве первого аргумента
 				принимает IBeveragePtr&& оборачиваемого напитка
-	Args - типы прочих параметров конструктора (возможно, пустой)
+	Args - список типов прочих параметров конструктора (возможно, пустой)
 */
 template <typename Condiment, typename... Args>
 function<unique_ptr<Condiment>(IBeveragePtr&&)> MakeCondiment(const Args&...args)
 {
-	// Возвращаем унарную функцию, создающую и возвращающую декоратор, оборачивающий
-	// напиток, переданный ей в качестве аргумента
+	// Возвращаем функцию, декорирующую напиток, переданный ей в качестве аргумента
+	// Дополнительные аргументы декоратора, захваченные лямбда-функцией, передаются
+	// конструктору декоратора через make_unique
 	return [=](IBeveragePtr && b) {
 		// Функции make_unique передаем b вместе со списком аргументов внешней функции
 		return make_unique<Condiment>(move(b), args...);
@@ -58,7 +57,7 @@ function<unique_ptr<Condiment>(IBeveragePtr&&)> MakeCondiment(const Args&...args
 
 /*
 Перегруженная версия оператора <<, которая предоставляет нам синтаксический сахар
-для оборачивания напитка декоратором.
+для декорирования компонента
 
 Позволяет создать цепочку оборачивающих напиток декораторов следующим образом:
 auto beverage = make_unique<CConcreteBeverage>(a, b, c)
@@ -94,19 +93,19 @@ auto beverage = make_unique<CConcreteBeverage>(a, b, c)
 						g, h		// доп. параметры CondimentB
 					);
 
-IBeveragePtr operator << (IBeveragePtr && lhs, const MakeLemon & factory)
+unique_ptr<CLemon> operator << (IBeveragePtr && lhs, const MakeLemon & factory)
 {
 	return factory(move(lhs));
 }
-IBeveragePtr operator << (IBeveragePtr && lhs, const MakeCinnamon & factory)
+unique_ptr<CCinnamon> operator << (IBeveragePtr && lhs, const MakeCinnamon & factory)
 {
 	return factory(move(lhs));
 }
 */
-template <typename CondimentFactory>
-IBeveragePtr operator << (IBeveragePtr && lhs, const CondimentFactory & factory)
+template <typename Component, typename Decorator>
+auto operator << (Component && component, const Decorator & decorate)
 {
-	return factory(move(lhs));
+	return decorate(forward<Component>(component));
 }
 
 
@@ -131,16 +130,49 @@ int main()
 	{
 		auto beverage =
 			make_unique<CChocolateCrumbs>(			// Внешний слой: шоколадная крошка
-				make_unique<CIceCubes>(				//   под нею - кубики льда
-					make_unique<CLemon>(			//	   еще ниже лимон
-						make_unique<CCinnamon>(		//       слоем ниже - корица
-							make_unique<CLatte>()),	//         в самом сердце - Латте
-						2),							//     2 дольки лимона
-					2, IceCubeType::Dry),			//   2 кубика сухого льда
+				make_unique<CIceCubes>(				// | под нею - кубики льда
+					make_unique<CLemon>(			// | | еще ниже лимон
+						make_unique<CCinnamon>(		// | | | слоем ниже - корица
+							make_unique<CLatte>()),	// | | |   в самом сердце - Латте
+						2),							// | | 2 дольки лимона
+					2, IceCubeType::Dry),			// | 2 кубика сухого льда
 				2);									// 2 грамма шоколадной крошки
 
 		// Выписываем счет покупателю
 		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
+	}
+
+	// Подробнее рассмотрим работу MakeCondiment и оператора <<
+	{
+		// lemon - функция, добавляющая "2 дольки лимона" к любому напитку
+		auto lemon2 = MakeCondiment<CLemon>(2);
+		// iceCubes - функция, добавляющая "3 кусочка льда" к любому напитку
+		auto iceCubes3 = MakeCondiment<CIceCubes>(3, IceCubeType::Water);
+		
+		auto tea = make_unique<CTea>();
+
+		// декорируем чай двумя дольками лимона и тремя кусочками льда
+		auto lemonIceTea = iceCubes3(lemon2(move(tea)));	
+		/* Предыдущая строка выполняет те же действия, что и следующий код:
+		auto lemonIceTea = 
+			make_unique<CIceCubes>(
+				make_unique<CLemon>(
+					move(tea), 
+					2), 
+				2, IceCubeType::Water);
+		*/
+		
+		auto oneMoreLemonIceTea =
+			make_unique<CTea>()	// Берем чай
+			<< MakeCondiment<CLemon>(2)	// добавляем пару долек лимона
+			<< MakeCondiment<CIceCubes>(3, IceCubeType::Water); // и 3 кубика льда
+		/*
+		Предыдущая конструкция делает то же самое, что и следующая:
+		auto oneMoreLemonIceTea =
+			MakeCondiment<CIceCubes>(3, IceCubeType::Water)(
+				MakeCondiment<CLemon>(2)(make_unique<CTea>())
+				);
+		*/
 	}
 
 	// Аналог предыдущего решения с добавкой синтаксического сахара

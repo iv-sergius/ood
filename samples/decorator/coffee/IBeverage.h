@@ -4,7 +4,7 @@
 #include <memory>
 
 
-// Интерфейс "напитки"
+// Интерфейс "напиток"
 class IBeverage
 {
 public:
