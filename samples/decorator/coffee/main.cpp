@@ -44,14 +44,14 @@ function<IBeveragePtr(IBeveragePtr &&)> MakeCinnamon()
 	Args - список типов прочих параметров конструктора (возможно, пустой)
 */
 template <typename Condiment, typename... Args>
-function<unique_ptr<Condiment>(IBeveragePtr&&)> MakeCondiment(const Args&...args)
+auto MakeCondiment(const Args&...args)
 {
 	// Возвращаем функцию, декорирующую напиток, переданный ей в качестве аргумента
 	// Дополнительные аргументы декоратора, захваченные лямбда-функцией, передаются
 	// конструктору декоратора через make_unique
-	return [=](IBeveragePtr && b) {
+	return [=](auto && b) {
 		// Функции make_unique передаем b вместе со списком аргументов внешней функции
-		return make_unique<Condiment>(move(b), args...);
+		return make_unique<Condiment>(forward<decltype(b)>(b), args...);
 	};
 }
 
