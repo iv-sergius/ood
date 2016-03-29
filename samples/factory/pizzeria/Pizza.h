@@ -10,17 +10,17 @@ public:
 
 	void Bake()
 	{
-		std::cout << "Baking the pizza in the oven for 10 minutes\n";
+		std::cout << "Bake for 25 minutes at 350''\n";
 	}
 
 	virtual void Cut()
 	{
-		std::cout << "Cutting the pizza by 8 pieces\n";
+		std::cout << "Cutting the pizza into diagonal slices\n";
 	}
 
 	virtual void Box()
 	{
-		std::cout << "Boxing the pizza\n";
+		std::cout << "Place pizza in official CPizzaStore box\n";
 	}
 };
 
