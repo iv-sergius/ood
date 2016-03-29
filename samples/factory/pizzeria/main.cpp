@@ -1,82 +1,16 @@
-#include <memory>
+п»ї#include <memory>
 #include <string>
 #include <stdexcept>
 
+#include "Pizza.h"
+
 using namespace std;
 
-class CDuck
-{
-public:
-	virtual ~CDuck() = default;
-};
-
-class CMallarDuck : public CDuck
-{
-};
-
-class CDecoyDuck : public CDuck {};
-
-class CRubberDuck : public CDuck {};
-
-void PlayWithDucks()
-{
-	bool hunting = true;
-	bool picnic = true;
-	bool inBathTube = true;
-
-	unique_ptr<CDuck> duck;
-	if (picnic)
-	{
-		duck = make_unique<CMallarDuck>();
-	}
-	else if (hunting)
-	{
-		duck = make_unique<CDecoyDuck>();
-	}
-	else if (inBathTube)
-	{
-		duck = make_unique<CRubberDuck>();
-	}
-}
-
-class CPizza
-{
-public:
-	virtual ~CPizza() = default;
-	virtual void Prepare()
-	{
-
-	}
-	virtual void Bake()
-	{
-
-	}
-	void Cut()
-	{
-
-	}
-	void Box()
-	{
-
-	}
-};
-
-class CCheezePizza : public CPizza
-{
-};
-
-class CPepperoniPizza : public CPizza
-{
-};
-
-class CNapolitanaPizza : public CPizza
-{
-};
-
+// РџСЂРѕСЃС‚Р°СЏ С„Р°Р±СЂРёРєР° РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РїРёС†С†С‹
 class CSimplePizzaFactory
 {
 public:
-	unique_ptr<CPizza> CreatePizza(const string& type) const
+	virtual unique_ptr<CPizza> CreatePizza(const string& type) const
 	{
 		unique_ptr<CPizza> pizza;
 
@@ -84,9 +18,9 @@ public:
 		{
 			pizza = make_unique<CCheezePizza>();
 		}
-		else if (type == "pepperoni")
+		else if (type == "peperoni")
 		{
-			pizza = make_unique<CPepperoniPizza>();
+			pizza = make_unique<CPeperoniPizza>();
 		}
 		else if (type == "napolitana")
 		{
@@ -100,19 +34,19 @@ public:
 	}
 };
 
-// Пиццерия
+// РџРёС†С†РµСЂРёСЏ
 class CPizzaStore
 {
 public:
-	// Параметризуем пиццерию объектом фабрики
+	// РџР°СЂР°РјРµС‚СЂРёР·СѓРµРј РїРёС†С†РµСЂРёСЋ РѕР±СЉРµРєС‚РѕРј С„Р°Р±СЂРёРєРё
 	CPizzaStore(unique_ptr<CSimplePizzaFactory> && factory)
 		:m_factory(move(factory))
 	{
 	}
 
-	unique_ptr<CPizza> OrderPizza(const string& type)
+	virtual unique_ptr<CPizza> OrderPizza(const string& type)
 	{
-		// Делегируем создание экземпляра пиццы фабрике
+		// Р”РµР»РµРіРёСЂСѓРµРј СЃРѕР·РґР°РЅРёРµ СЌРєР·РµРјРїР»СЏСЂР° РїРёС†С†С‹ С„Р°Р±СЂРёРєРµ
 		auto pizza = m_factory->CreatePizza(type);
 
 		pizza->Prepare();
@@ -126,38 +60,44 @@ private:
 	unique_ptr<CSimplePizzaFactory> m_factory;
 };
 
-unique_ptr<CPizza> OrderPizza(const string& type)
+class CNYPizzaFactory : public CSimplePizzaFactory
 {
-	unique_ptr<CPizza> pizza;
+public:
+	unique_ptr<CPizza> CreatePizza(const string& type) const override
+	{
+		unique_ptr<CPizza> pizza;
 
-	if (type == "cheeze")
-	{
-		pizza = make_unique<CCheezePizza>();
+		if (type == "cheeze")
+		{
+			pizza = make_unique<CNYCheezePizza>();
+		}
+		else if (type == "peperoni")
+		{
+			pizza = make_unique<CNYPeperoniPizza>();
+		}
+		else if (type == "napolitana")
+		{
+			pizza = make_unique<CNYNapolitanaPizza>();
+		}
+		else
+		{
+			throw invalid_argument("Unknown pizza type");
+		}
+		return pizza;
 	}
-	else if (type == "pepperoni")
-	{
-		pizza = make_unique<CPepperoniPizza>();
-	}
-	else if (type == "napolitana")
-	{
-		pizza = make_unique<CNapolitanaPizza>();
-	}
-	else
-	{
-		throw invalid_argument("Unknown pizza type");
-	}
+};
 
-	pizza->Prepare();
-	pizza->Bake();
-	pizza->Cut();
-	pizza->Box();
-
-	return pizza;
+void MakeSomePizza(CPizzaStore & pizzaStore, const string& type)
+{
+	pizzaStore.OrderPizza(type);
+	cout << "Thank you for visiting our pizza store\n";
 }
-
 
 int main()
 {
+	auto nyPizzaFactory = make_unique<CNYPizzaFactory>();
+	CPizzaStore ps(move(nyPizzaFactory));
+	MakeSomePizza(ps, "peperoni");
 
 	return 0;
 }
