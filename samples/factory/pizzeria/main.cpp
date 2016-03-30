@@ -18,13 +18,17 @@ public:
 		{
 			pizza = make_unique<CCheezePizza>();
 		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CClamPizza>();
+		}
 		else if (type == "peperoni")
 		{
 			pizza = make_unique<CPeperoniPizza>();
 		}
-		else if (type == "napolitana")
+		else if (type == "veggie")
 		{
-			pizza = make_unique<CNapolitanaPizza>();
+			pizza = make_unique<CVeggiePizza>();
 		}
 		else
 		{
@@ -69,15 +73,19 @@ public:
 
 		if (type == "cheeze")
 		{
-			pizza = make_unique<CNYCheezePizza>();
+			pizza = make_unique<CNYStyleCheezePizza>();
+		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CNYStyleClamPizza>();
 		}
 		else if (type == "peperoni")
 		{
-			pizza = make_unique<CNYPeperoniPizza>();
+			pizza = make_unique<CNYStylePeperoniPizza>();
 		}
-		else if (type == "napolitana")
+		else if (type == "veggie")
 		{
-			pizza = make_unique<CNYNapolitanaPizza>();
+			pizza = make_unique<CNYStyleVeggiePizza>();
 		}
 		else
 		{
@@ -86,6 +94,8 @@ public:
 		return pizza;
 	}
 };
+
+
 
 void OrderPizzaWithSimpleFactory()
 {
@@ -126,15 +136,19 @@ protected:
 
 		if (type == "cheeze")
 		{
-			pizza = make_unique<CNYCheezePizza>();
+			pizza = make_unique<CNYStyleCheezePizza>();
+		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CNYStyleClamPizza>();
 		}
 		else if (type == "peperoni")
 		{
-			pizza = make_unique<CNYPeperoniPizza>();
+			pizza = make_unique<CNYStylePeperoniPizza>();
 		}
-		else if (type == "napolitana")
+		else if (type == "veggie")
 		{
-			pizza = make_unique<CNYNapolitanaPizza>();
+			pizza = make_unique<CNYStyleVeggiePizza>();
 		}
 		else
 		{
@@ -147,6 +161,7 @@ protected:
 void OrderPizzaWithFactoryMethod(CAbstractPizzaStore & pizzaStore)
 {
 	auto pizza = pizzaStore.OrderPizza("peperoni");
+	cout << pizza->ToString() << "------------\n";
 }
 
 int main()
