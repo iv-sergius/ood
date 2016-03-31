@@ -6,7 +6,6 @@
 
 using namespace std;
 
-// Простая фабрика для создания пиццы
 class CSimplePizzaFactory
 {
 public:
@@ -95,8 +94,6 @@ public:
 	}
 };
 
-
-
 void OrderPizzaWithSimpleFactory()
 {
 	auto nyPizzaFactory = make_unique<CNYPizzaFactory>();
@@ -158,18 +155,66 @@ protected:
 	}
 };
 
-void OrderPizzaWithFactoryMethod(CAbstractPizzaStore & pizzaStore)
+class CChicagoPizzaStore : public CAbstractPizzaStore
 {
-	auto pizza = pizzaStore.OrderPizza("peperoni");
-	cout << pizza->ToString() << "------------\n";
+protected:
+	// Все, что нужно - реализовать метод CreatePizza нужным образом
+	unique_ptr<CPizza> CreatePizza(const string& type) const override
+	{
+		unique_ptr<CPizza> pizza;
+
+		if (type == "cheeze")
+		{
+			pizza = make_unique<CChicagoStyleCheezePizza>();
+		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CChicagoStyleClamPizza>();
+		}
+		else if (type == "peperoni")
+		{
+			pizza = make_unique<CChicagoStylePeperoniPizza>();
+		}
+		else if (type == "veggie")
+		{
+			pizza = make_unique<CChicagoStyleVeggiePizza>();
+		}
+		else
+		{
+			throw invalid_argument("Unknown pizza type");
+		}
+		return pizza;
+	}
+};
+
+void TestDrivePizzaStore(CAbstractPizzaStore & store)
+{
+	auto pizza = store.OrderPizza("cheeze");
+	
+	cout << "I have ordered a " << pizza->GetName() << endl << endl;
+
+}
+
+void OrderPizzaWithFactoryMethod()
+{
+	CNYPizzaStore nyStore;
+	TestDrivePizzaStore(nyStore);
+
+	CChicagoPizzaStore chicagoStore;
+	TestDrivePizzaStore(chicagoStore);
 }
 
 int main()
 {
+	cout << "Ordering pizza with Simple Factory" << endl << endl;
 	OrderPizzaWithSimpleFactory();
 
-	CNYPizzaStore pizzaStore;
-	OrderPizzaWithFactoryMethod(pizzaStore);
+	cout << "-------------------" << endl;
+
+	cout << "Ordering pizza using Factory Method pattern" << endl << endl;
+	OrderPizzaWithFactoryMethod();
+
+	cout << "-------------------" << endl;
 
 	return 0;
 }
