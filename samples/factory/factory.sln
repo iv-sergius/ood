@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pizzeria", "pizzeria\pizzeria.vcxproj", "{2110C694-1321-4DA8-9A48-347BE37650DC}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "pizza-fm", "pizza-fm\pizza-fm.vcxproj", "{2110C694-1321-4DA8-9A48-347BE37650DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
