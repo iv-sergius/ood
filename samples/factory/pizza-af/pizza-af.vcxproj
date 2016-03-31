@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{2110C694-1321-4DA8-9A48-347BE37650DC}</ProjectGuid>
+    <ProjectGuid>{9EB9F9F3-3236-4ABE-92E8-B8CFB37DD9CB}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>pizzeria</RootNamespace>
+    <RootNamespace>pizzaaf</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -149,7 +149,15 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Cheese.h" />
+    <ClInclude Include="Clams.h" />
+    <ClInclude Include="Dough.h" />
+    <ClInclude Include="Pepperoni.h" />
     <ClInclude Include="Pizza.h" />
+    <ClInclude Include="PizzaIngredientFactory.h" />
+    <ClInclude Include="PizzaStore.h" />
+    <ClInclude Include="Sauce.h" />
+    <ClInclude Include="Veggies.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
