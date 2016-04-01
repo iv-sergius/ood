@@ -92,3 +92,11 @@ class CCheesePizza : public CPizza
 	// —оус
 	// —ыр
 };
+
+class CClamPizza : public CPizza
+{
+	// тесто
+	// соус
+	// сыр
+	// моллюски
+};
