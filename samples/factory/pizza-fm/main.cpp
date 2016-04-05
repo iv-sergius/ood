@@ -187,12 +187,68 @@ protected:
 	}
 };
 
+class CDependentPizzaStore 
+{
+public:
+	unique_ptr<CPizza> OrderPizza(const string & style, const string & type)
+	{
+		unique_ptr<CPizza> pizza;
+		if (style == "NY")
+		{
+			if (type == "cheeze")
+			{
+				pizza = make_unique<CNYStyleCheezePizza>();
+			}
+			else if (type == "clam")
+			{
+				pizza = make_unique<CNYStyleClamPizza>();
+			}
+			else if (type == "peperoni")
+			{
+				pizza = make_unique<CNYStylePeperoniPizza>();
+			}
+			else if (type == "veggie")
+			{
+				pizza = make_unique<CNYStyleVeggiePizza>();
+			}
+		}
+		else if (style == "Chicago")
+		{
+			if (type == "cheeze")
+			{
+				pizza = make_unique<CChicagoStyleCheezePizza>();
+			}
+			else if (type == "clam")
+			{
+				pizza = make_unique<CChicagoStyleClamPizza>();
+			}
+			else if (type == "peperoni")
+			{
+				pizza = make_unique<CChicagoStylePeperoniPizza>();
+			}
+			else if (type == "veggie")
+			{
+				pizza = make_unique<CChicagoStyleVeggiePizza>();
+			}
+		}
+		if (!pizza)
+		{
+			throw invalid_argument("Unknown pizza type");
+		}
+		pizza->Prepare();
+		pizza->Bake();
+		pizza->Cut();
+		pizza->Box();
+		return pizza;
+	}
+};
+
+
 void TestDrivePizzaStore(CAbstractPizzaStore & store)
 {
 	auto pizza = store.OrderPizza("cheeze");
 	
 	cout << "I have ordered a " << pizza->GetName() << endl << endl;
-
 }
 
 void OrderPizzaWithFactoryMethod()
