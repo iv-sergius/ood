@@ -8,3 +8,12 @@ public:
 
 	virtual ~IPepperoni() = default;
 };
+
+class CSlicedPepperoni : public IPepperoni
+{
+	std::string ToString() const override
+	{
+		return "Sliced Pepperoni";
+	}
+
+};

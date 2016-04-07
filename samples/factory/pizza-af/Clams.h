@@ -10,3 +10,12 @@ public:
 };
 
 // CFreshClams
+class CFreshClams : public IClams
+{
+public:
+	virtual std::string ToString() const override
+	{
+		return "Fresh Clams from Long Island Sound";
+	}
+
+};

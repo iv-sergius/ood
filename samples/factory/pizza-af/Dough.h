@@ -9,3 +9,20 @@ public:
 
 	virtual ~IDough() = default;
 };
+
+class CThickCrustDough : public IDough
+{
+	std::string ToString() const override
+	{
+		return "ThickCrust style extra thick crust dough";
+	}
+
+};
+
+class CThinCrustDough : public IDough 
+{
+	std::string ToString() const override
+	{
+		return "Thin Crust Dough";
+	}
+};

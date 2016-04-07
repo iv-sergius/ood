@@ -23,3 +23,26 @@ public:
 protected:
 	virtual std::unique_ptr<CPizza> CreatePizza(const std::string& type) = 0;
 };
+
+class CNYPizzaStore : public CPizzaStore
+{
+protected:
+
+	virtual std::unique_ptr<CPizza> CreatePizza(const std::string& type) override
+	{
+		using namespace std;
+		unique_ptr<CPizza> pizza;
+		auto ingredientFactory = make_unique<CNyPizzaIngredientFactory>();
+		if (type == "cheese")
+		{
+			pizza = make_unique<CCheesePizza>(move(ingredientFactory));
+			pizza->SetName("New York Style Cheese Pizza");
+		}
+		else
+		{
+			/* другие типы пиццы */
+		}
+		return pizza;
+	}
+
+};
