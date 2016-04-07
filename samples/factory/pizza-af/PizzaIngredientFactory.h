@@ -7,6 +7,15 @@
 #include "Sauce.h"
 #include <memory>
 #include <vector>
+#include <functional>
+
+typedef std::function<std::unique_ptr<IDough>()> DoughFactory;
+
+std::unique_ptr<IDough> ThickCrustDoughFactory()
+{
+	return std::make_unique<CThickCrustDough>();
+}
+
 
 class IPizzaIngredientFactory
 {

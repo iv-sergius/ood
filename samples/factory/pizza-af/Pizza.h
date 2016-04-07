@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Cheese.h"
 #include "Clams.h"
 #include "Dough.h"
@@ -44,7 +44,7 @@ public:
 
 	std::string ToString()const
 	{
-		// ��� ������ �������� �����
+		// Код вывода описания пиццы
 		std::string result;
 		result.append("---- " + m_name + " ----\n");
 		if (m_dough)
@@ -107,7 +107,7 @@ private:
 	std::unique_ptr<IPizzaIngredientFactory> m_ingredientFactory;
 };
 
-/* ����� �� ����� - �����, ����, ���, �����*/
+/* Пицца из мидий - тесто, соус, сыр, мидии*/
 class CClamPizza : public CPizza
 {
 public:
@@ -127,4 +127,27 @@ public:
 	}
 private:
 	std::unique_ptr<IPizzaIngredientFactory> m_ingredientFactory;
+};
+
+/*
+Лаваш - иллюстрирует использование фабрики в функциональном стиле
+Вместо одной большой универсальной фабрики принимает одну мини-фабрику по производству теста
+Если понадобится использовать более одного ингредиента, можно передать доп. мини-фабрику
+*/
+class CLavash : public CPizza
+{
+public:
+	CLavash(const DoughFactory & doughFactory 
+		/* при желании можно добавить дополнительные мини-фабрики ингредиентов*/)
+		:m_doughFactory(doughFactory)
+	{
+	}
+	void Prepare() override
+	{
+		std::cout << "Preparing " << GetName() << std::endl;
+
+		m_dough = m_doughFactory();
+	}
+private:
+	DoughFactory m_doughFactory;
 };

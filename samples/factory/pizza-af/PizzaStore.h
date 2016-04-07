@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Pizza.h"
 
 
@@ -44,7 +44,7 @@ protected:
 		} 
 		else
 		{
-			/* ������ ���� ����� */
+			/* другие типы пиццы */
 		}
 		return pizza;
 	}
@@ -70,8 +70,21 @@ protected:
 		}
 		else
 		{
-			/* ������ ���� ����� */
+			/* другие типы пиццы */
 		}
 		return pizza;
+	}
+};
+
+/* Пиццерия "У Ашота". Производит только Лаваш. */
+class CAshotsPizzaStore : public CPizzaStore
+{
+protected:
+	// Тип не имеет значения. В меню только лаваш
+	std::unique_ptr<CPizza> CreatePizza(const std::string& /*type*/) override
+	{
+		auto pizza = std::make_unique<CLavash>(ThickCrustDoughFactory);
+		pizza->SetName("Lavash");
+		return std::move(pizza);
 	}
 };
