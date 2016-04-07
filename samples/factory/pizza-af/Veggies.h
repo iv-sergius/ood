@@ -7,8 +7,6 @@ class IVeggies
 public:
 	virtual std::string ToString()const = 0;
 
-	IVeggies(const IVeggies&) = delete;
-	IVeggies& operator=(const IVeggies &) = delete;
 	virtual ~IVeggies() = default;
 };
 
@@ -55,5 +53,23 @@ public:
 	std::string ToString() const override
 	{
 		return "Red Pepper";
+	}
+};
+
+class CSpinach : public IVeggies
+{
+public:
+	std::string ToString() const override
+	{
+		return "Spinach";
+	}
+};
+
+class CEggplant : public IVeggies
+{
+public:
+	std::string ToString() const override
+	{
+		return "Eggplant";
 	}
 };

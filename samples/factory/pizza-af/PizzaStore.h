@@ -27,16 +27,46 @@ protected:
 class CNYPizzaStore : public CPizzaStore
 {
 protected:
-
-	virtual std::unique_ptr<CPizza> CreatePizza(const std::string& type) override
+	std::unique_ptr<CPizza> CreatePizza(const std::string& type) override
 	{
 		using namespace std;
 		unique_ptr<CPizza> pizza;
-		auto ingredientFactory = make_unique<CNyPizzaIngredientFactory>();
+		auto ingredientFactory = make_unique<CNYPizzaIngredientFactory>();
 		if (type == "cheese")
 		{
 			pizza = make_unique<CCheesePizza>(move(ingredientFactory));
 			pizza->SetName("New York Style Cheese Pizza");
+		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CClamPizza>(move(ingredientFactory));
+			pizza->SetName("New York Style Clam Pizza");
+		} 
+		else
+		{
+			/* другие типы пиццы */
+		}
+		return pizza;
+	}
+};
+
+class CChicagoPizzaStore : public CPizzaStore
+{
+protected:
+	std::unique_ptr<CPizza> CreatePizza(const std::string& type) override
+	{
+		using namespace std;
+		unique_ptr<CPizza> pizza;
+		auto ingredientFactory = make_unique<CChicagoPizzaIngredientFactory>();
+		if (type == "cheese")
+		{
+			pizza = make_unique<CCheesePizza>(move(ingredientFactory));
+			pizza->SetName("Chicago Style Cheese Pizza");
+		}
+		else if (type == "clam")
+		{
+			pizza = make_unique<CClamPizza>(move(ingredientFactory));
+			pizza->SetName("Chicago Style Clam Pizza");
 		}
 		else
 		{
@@ -44,5 +74,4 @@ protected:
 		}
 		return pizza;
 	}
-
 };

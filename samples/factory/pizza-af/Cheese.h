@@ -15,5 +15,12 @@ class CReggianoCheese : public ICheese
 	{
 		return "Reggiano Cheese";
 	}
+};
 
+class CMozarellaCheese : public ICheese
+{
+	std::string ToString() const override
+	{
+		return "Mozarella Cheese";
+	}
 };

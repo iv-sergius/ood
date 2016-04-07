@@ -17,5 +17,13 @@ public:
 	{
 		return "Fresh Clams from Long Island Sound";
 	}
+};
 
+class CFrozenClams : public IClams
+{
+public:
+	virtual std::string ToString() const override
+	{
+		return "Frozen Clams";
+	}
 };

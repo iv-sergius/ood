@@ -11,9 +11,9 @@ public:
 
 class CSlicedPepperoni : public IPepperoni
 {
+public:
 	std::string ToString() const override
 	{
 		return "Sliced Pepperoni";
 	}
-
 };

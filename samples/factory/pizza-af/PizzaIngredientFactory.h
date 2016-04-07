@@ -21,8 +21,9 @@ public:
 	virtual ~IPizzaIngredientFactory() = default;
 };
 
-class CNyPizzaIngredientFactory : public IPizzaIngredientFactory
+class CNYPizzaIngredientFactory : public IPizzaIngredientFactory
 {
+public:
 	std::unique_ptr<IDough> CreateDough() override
 	{
 		return std::make_unique<CThinCrustDough>();
@@ -40,10 +41,16 @@ class CNyPizzaIngredientFactory : public IPizzaIngredientFactory
 
 	std::vector<std::unique_ptr<IVeggies>> CreateVeggies() override
 	{
-		using std::make_unique;
-		return { make_unique<CGarlic>(), make_unique<COnion>(), 
-			make_unique<CMushroom>(), make_unique<CRedPepper>()
-		};
+		using namespace std;
+		typedef unique_ptr<IVeggies> IVeggiesPtr;
+
+		vector<IVeggiesPtr > veggies;
+		veggies.push_back(IVeggiesPtr(new CGarlic()));
+		veggies.push_back(IVeggiesPtr(new COnion()));
+		veggies.push_back(IVeggiesPtr(new CMushroom()));
+		veggies.push_back(IVeggiesPtr(new CRedPepper()));
+
+		return veggies;
 	}
 
 	std::unique_ptr<IPepperoni> CreatePepperoni() override
@@ -54,5 +61,47 @@ class CNyPizzaIngredientFactory : public IPizzaIngredientFactory
 	std::unique_ptr<IClams> CreateClam() override
 	{
 		return std::make_unique<CFreshClams>();
+	}
+};
+
+class CChicagoPizzaIngredientFactory : public IPizzaIngredientFactory
+{
+public:
+	std::unique_ptr<IDough> CreateDough() override
+	{
+		return std::make_unique<CThickCrustDough>();
+	}
+
+	std::unique_ptr<ISauce> CreateSauce() override
+	{
+		return std::make_unique<CPlumTomatoSauce>();
+	}
+	
+	std::unique_ptr<ICheese> CreateCheese() override
+	{
+		return std::make_unique<CMozarellaCheese>();
+	}
+	
+	std::vector<std::unique_ptr<IVeggies>> CreateVeggies() override
+	{
+		using namespace std;
+		typedef unique_ptr<IVeggies> IVeggiesPtr;
+
+		vector<IVeggiesPtr > veggies;
+		veggies.push_back(IVeggiesPtr(new CBlackOlives()));
+		veggies.push_back(IVeggiesPtr(new CSpinach()));
+		veggies.push_back(IVeggiesPtr(new CEggplant()));
+
+		return veggies;
+	}
+	
+	std::unique_ptr<IPepperoni> CreatePepperoni() override
+	{
+		return std::make_unique<CSlicedPepperoni>();
+	}
+	
+	std::unique_ptr<IClams> CreateClam() override
+	{
+		return std::make_unique<CFrozenClams>();
 	}
 };

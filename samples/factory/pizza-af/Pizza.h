@@ -89,14 +89,13 @@ protected:
 
 class CCheesePizza : public CPizza
 {
-	std::unique_ptr<IPizzaIngredientFactory> m_ingredientFactory;
-
+public:
 	CCheesePizza(std::unique_ptr<IPizzaIngredientFactory> && factory)
 		: m_ingredientFactory(std::move(factory))
 	{
 	}
 
-	virtual void Prepare() override
+	void Prepare() override
 	{
 		std::cout << "Preparing " << GetName() << std::endl;
 
@@ -104,13 +103,28 @@ class CCheesePizza : public CPizza
 		m_sauce = m_ingredientFactory->CreateSauce();
 		m_cheese = m_ingredientFactory->CreateCheese();
 	}
-
+private:
+	std::unique_ptr<IPizzaIngredientFactory> m_ingredientFactory;
 };
 
+/* Пицца из мидий - тесто, соус, сыр, мидии*/
 class CClamPizza : public CPizza
 {
-	// тесто
-	// соус
-	// сыр
-	// моллюски
+public:
+	CClamPizza(std::unique_ptr<IPizzaIngredientFactory> && factory)
+		: m_ingredientFactory(std::move(factory))
+	{
+	}
+
+	void Prepare() override
+	{
+		std::cout << "Preparing " << GetName() << std::endl;
+
+		m_dough = m_ingredientFactory->CreateDough();
+		m_sauce = m_ingredientFactory->CreateSauce();
+		m_cheese = m_ingredientFactory->CreateCheese();
+		m_clam = m_ingredientFactory->CreateClam();
+	}
+private:
+	std::unique_ptr<IPizzaIngredientFactory> m_ingredientFactory;
 };
