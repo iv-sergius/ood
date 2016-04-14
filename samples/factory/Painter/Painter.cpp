@@ -8,7 +8,8 @@ using namespace std;
 
 int main()
 {
-	CDesigner designer;
+
+	//CDesigner designer;
 
 	return 0;
 }
