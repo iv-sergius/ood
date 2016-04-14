@@ -5,6 +5,7 @@
 #include "Shape.h"
 
 
+
 class CPictureDraft
 {
 

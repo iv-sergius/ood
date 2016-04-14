@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include "../libpainter/Designer.h"
 #include "../libpainter/PictureDraft.h"
 #include "../libpainter/IShapeFactory.h"
@@ -23,7 +23,7 @@ struct MockShapeFactory : IShapeFactory
 	// Inherited via IShapeFactory
 	unique_ptr<CShape> CreateShape(const std::string & description) override
 	{
-		// Запротоколировали описание созданной фигуры
+		// Р—Р°РїСЂРѕС‚РѕРєРѕР»РёСЂРѕРІР°Р»Рё РѕРїРёСЃР°РЅРёРµ СЃРѕР·РґР°РЅРЅРѕР№ С„РёРіСѓСЂС‹
 		shapeDescriptions.push_back(description);
 		return make_unique<CMockShape>(description);
 	}

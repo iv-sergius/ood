@@ -1,4 +1,4 @@
-#include "stdafx.h"
+﻿#include "stdafx.h"
 #include "Designer.h"
 #include "PictureDraft.h"
 #include "IShapeFactory.h"

@@ -10,5 +10,6 @@
 #define BOOST_TEST_NO_MAIN 
 // подключаем реализацию boost test
 #pragma warning (push, 3)
+#pragma warning (disable:4702)
 #include <boost/test/included/unit_test.hpp>
 #pragma warning (pop)
