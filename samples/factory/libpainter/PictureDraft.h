@@ -16,7 +16,7 @@ public:
 
 	bool IsEmpty()const;
 
-	typedef boost::indirect_iterator<Storage::const_iterator, Storage::value_type> ConstIterator;
+	typedef boost::indirect_iterator<Storage::const_iterator, const CShape&> ConstIterator;
 
 	ConstIterator begin()const;
 
