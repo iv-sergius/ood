@@ -16,6 +16,7 @@ BOOST_FIXTURE_TEST_SUITE(Designer, Designer_)
 			istringstream input;
 			auto draft = designer.CreateDraft(input);
 			BOOST_CHECK(draft.IsEmpty());
+			BOOST_CHECK(input.eof());
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 BOOST_AUTO_TEST_SUITE_END()

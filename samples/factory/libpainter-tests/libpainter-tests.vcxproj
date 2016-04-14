@@ -171,6 +171,8 @@
   <ItemGroup>
     <ClCompile Include="DesignerTests.cpp" />
     <ClCompile Include="libpainter-tests.cpp" />
+    <ClCompile Include="PictureDraftTests.cpp" />
+    <ClCompile Include="ShapeTests.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
