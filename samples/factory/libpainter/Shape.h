@@ -3,6 +3,6 @@ class CShape
 {
 public:
 	CShape();
-	~CShape();
+	virtual ~CShape();
 };
 

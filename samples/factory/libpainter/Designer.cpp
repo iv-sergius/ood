@@ -17,11 +17,11 @@ CDesigner::~CDesigner()
 
 CPictureDraft CDesigner::CreateDraft(std::istream & inputData)
 {
+	CPictureDraft draft;
 	string line;
 	while (getline(inputData, line))
 	{
-		m_factory.CreateShape(line);
+		draft.AddShape(m_factory.CreateShape(line));
 	}
-	inputData;
-	return CPictureDraft();
+	return draft;
 }

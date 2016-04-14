@@ -32,3 +32,13 @@ public:
 private:
 	Storage m_shapes;
 };
+
+inline CPictureDraft::ConstIterator begin(const CPictureDraft & draft)
+{
+	return draft.begin();
+}
+
+inline CPictureDraft::ConstIterator end(const CPictureDraft & draft)
+{
+	return draft.end();
+}
