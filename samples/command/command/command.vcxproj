@@ -152,6 +152,7 @@
     <ClInclude Include="Commands.h" />
     <ClInclude Include="ICommand.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="MenuFP.h" />
     <ClInclude Include="Robot.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -48,21 +48,31 @@ public:
 			};
 			cout << "Walking " << directionToString.at(direction) << endl;
 		}
+		else
+		{
+			cout << "The robot should be turned on first" << endl;
+		}
 	}
 
 	void Stop()
 	{
+		using namespace std;
+
 		if (m_turnedOn)
 		{
 			if (m_direction)
 			{
 				m_direction.reset();
-				std::cout << "Stopped\n";
+				cout << "Stopped\n";
 			}
 			else
 			{
-				std::cout << "I am staying still\n";
+				cout << "I am staying still\n";
 			}
+		}
+		else
+		{
+			cout << "The robot should be turned on first" << endl;
 		}
 	}
 private:
