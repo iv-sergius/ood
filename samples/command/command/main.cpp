@@ -69,8 +69,9 @@ void TestMenuWithFunctionalCommandPattern()
 {
 	CRobot robot;
 	CMenuFP menu;
-	menu.AddItem("on", "Turns the Robot on", 
-		bind(&CRobot::TurnOn, &robot));
+	menu.AddItem("on", "Turns the Robot on", [&] { 
+		robot.TurnOn(); 
+	});
 	menu.AddItem("off", "Turns the Robot off",
 		bind(&CRobot::TurnOff, &robot));
 

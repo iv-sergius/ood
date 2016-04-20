@@ -22,7 +22,9 @@ public:
 	void Run()
 	{
 		std::string command;
-		while (getline(std::cin, command) && ExecuteCommand(command))
+		while ((std::cout << ">")
+			&& getline(std::cin, command)
+			&& ExecuteCommand(command))
 		{
 		}
 	}
@@ -32,7 +34,7 @@ public:
 		std::cout << "Commands list:\n";
 		for (auto & item : m_items)
 		{
-			std::cout << item.shortcut << ": " << item.description << "\n";
+			std::cout << "  " << item.shortcut << ": " << item.description << "\n";
 		}
 	}
 
