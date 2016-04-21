@@ -105,7 +105,7 @@ int main()
 		menu.ShowInstructions();
 	});
 	menu.AddItem("f", "Functional command pattern implementation", [&] {
-		TestMenuWithClassicCommandPattern(); 
+		TestMenuWithFunctionalCommandPattern(); 
 		menu.ShowInstructions();
 	});
 
