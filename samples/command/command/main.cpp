@@ -34,6 +34,17 @@ private:
 	CMenu & m_menu;
 };
 
+template <typename Commands>
+CMenuFP::Command CreateMacroCommand(Commands && commands)
+{
+	return [=] {
+		for (auto & command : commands)
+		{
+			command();
+		}
+	};
+}
+
 void TestMenuWithClassicCommandPattern()
 {
 	CRobot robot;
@@ -51,6 +62,14 @@ void TestMenuWithClassicCommandPattern()
 		make_unique<CWalkCommand>(robot, WalkDirection::West));
 	menu.AddItem("east", "Makes the Robot walk east",
 		make_unique<CWalkCommand>(robot, WalkDirection::East));
+	auto cmd = make_unique<CMacroCommand>();
+	cmd->AddCommand(make_unique<CTurnOnCommand>(robot));
+	cmd->AddCommand(make_unique<CWalkCommand>(robot, WalkDirection::North));
+	cmd->AddCommand(make_unique<CWalkCommand>(robot, WalkDirection::East));
+	cmd->AddCommand(make_unique<CWalkCommand>(robot, WalkDirection::South));
+	cmd->AddCommand(make_unique<CWalkCommand>(robot, WalkDirection::West));
+	cmd->AddCommand(make_unique<CTurnOffCommand>(robot));
+	menu.AddItem("patrol", "Patrol the territory", move(cmd));
 
 	menu.AddItem("stop", "Stops the Robot",
 		make_unique<CStopCommand>(robot));
@@ -59,9 +78,7 @@ void TestMenuWithClassicCommandPattern()
 		make_unique<CMenuHelpCommand>(menu));
 	menu.AddItem("exit", "Exit from this menu",
 		make_unique<CExitMenuCommand>(menu));
-
-	menu.ShowInstructions();
-
+	
 	menu.Run();
 }
 
@@ -69,6 +86,7 @@ void TestMenuWithFunctionalCommandPattern()
 {
 	CRobot robot;
 	CMenuFP menu;
+
 	menu.AddItem("on", "Turns the Robot on", [&] { 
 		robot.TurnOn(); 
 	});
@@ -87,12 +105,19 @@ void TestMenuWithFunctionalCommandPattern()
 	menu.AddItem("stop", "Stops the Robot", 
 		bind(&CRobot::Stop, &robot));
 
+	menu.AddItem("patrol", "Patrol the territory", CreateMacroCommand<vector<CMenuFP::Command>>({
+			bind(&CRobot::TurnOn, &robot),
+			bind(&CRobot::Walk, &robot, WalkDirection::North),
+			bind(&CRobot::Walk, &robot, WalkDirection::South),
+			bind(&CRobot::Walk, &robot, WalkDirection::West),
+			bind(&CRobot::Walk, &robot, WalkDirection::East),
+			bind(&CRobot::TurnOff, &robot)
+		}));
+
 	menu.AddItem("help", "Show instructions", 
 		bind(&CMenuFP::ShowInstructions, &menu));
 	menu.AddItem("exit", "Exit from this menu", 
 		bind(&CMenuFP::Exit, &menu));
-
-	menu.ShowInstructions();
 
 	menu.Run();
 }

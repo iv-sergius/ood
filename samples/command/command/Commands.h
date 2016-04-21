@@ -60,3 +60,21 @@ public:
 private:
 	CRobot & m_robot;
 };
+
+class CMacroCommand : public ICommand
+{
+public:
+	void Execute() override
+	{
+		for (auto & cmd : m_commands)
+		{
+			cmd->Execute();
+		}
+	}
+	void AddCommand(std::unique_ptr<ICommand> && cmd)
+	{
+		m_commands.push_back(std::move(cmd));
+	}
+private:
+	std::vector<std::unique_ptr<ICommand>> m_commands;
+};

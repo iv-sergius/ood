@@ -21,6 +21,8 @@ public:
 
 	void Run()
 	{
+		ShowInstructions();
+
 		std::string command;
 		while ((std::cout << ">")
 			&& getline(std::cin, command)
