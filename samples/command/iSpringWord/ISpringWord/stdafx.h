@@ -9,7 +9,13 @@
 
 #include <stdio.h>
 #include <tchar.h>
+
 #include <string>
+#include <vector>
+#include <memory>
+#include <iostream>
+#include <boost/range/algorithm/find_if.hpp>
+#include <functional>
 
 
 // TODO: reference additional headers your program requires here
