@@ -23,3 +23,13 @@ void CDocument::Undo()
 {
 	m_history.Undo();
 }
+
+bool CDocument::CanRedo() const
+{
+	return m_history.CanRedo();
+}
+
+void CDocument::Redo()
+{
+	m_history.Redo();
+}

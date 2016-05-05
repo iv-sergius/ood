@@ -21,7 +21,8 @@ public:
 		m_menu.AddItem("exit", "Exit", [this](istream&) { m_menu.Exit(); });
 		AddMenuItem("setTitle", "Changes title. Args: <new title>", &CEditor::SetTitle);
 		m_menu.AddItem("list", "Show document", bind(&CEditor::List, this, _1));
-		AddMenuItem("undo", "Undo last command", &CEditor::Undo);
+		AddMenuItem("undo", "Undo command", &CEditor::Undo);
+		AddMenuItem("redo", "Redo undone command", &CEditor::Redo);
 	}
 
 	void Start()
@@ -69,6 +70,18 @@ private:
 		else
 		{
 			cout << "Can't undo" << endl;
+		}
+	}
+
+	void Redo(istream &)
+	{
+		if (m_document->CanRedo())
+		{
+			m_document->Redo();
+		}
+		else
+		{
+			cout << "Can't redo" << endl;
 		}
 	}
 

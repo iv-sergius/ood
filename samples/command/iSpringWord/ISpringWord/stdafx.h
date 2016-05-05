@@ -17,6 +17,9 @@
 #include <boost/range/algorithm/find_if.hpp>
 #include <functional>
 #include <sstream>
+#include <deque>
+#include <cassert>
+#include <boost/scope_exit.hpp>
 
 
 // TODO: reference additional headers your program requires here
