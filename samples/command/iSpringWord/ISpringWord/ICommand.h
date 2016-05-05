@@ -1,5 +1,7 @@
 #pragma once
 
+#include "ICommand_fwd.h"
+
 class ICommand
 {
 public:

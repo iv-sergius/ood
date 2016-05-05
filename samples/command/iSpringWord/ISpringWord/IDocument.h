@@ -38,10 +38,10 @@ public:
 	// Изменяет заголовок документа
 	virtual void SetTitle(const std::string & title) = 0;
 
-	//// Сообщает о доступности операции Undo
-	//virtual bool CanUndo()const = 0;
-	//// Отменяет команду редактирования
-	//virtual void Undo() = 0;
+	// Сообщает о доступности операции Undo
+	virtual bool CanUndo()const = 0;
+	// Отменяет команду редактирования
+	virtual void Undo() = 0;
 
 	//// Сообщает о доступности операции Redo
 	//virtual bool CanRedo()const = 0;
