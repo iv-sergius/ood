@@ -33,10 +33,10 @@ public:
 	//// Удаляет элемент из документа
 	//virtual void DeleteItem(size_t index) = 0;
 
-	//// Возвращает заголовок документа
-	//virtual std::string GetTitle()const = 0;
-	//// Изменяет заголовок документа
-	//virtual void SetTitle(const std::string & title) = 0;
+	// Возвращает заголовок документа
+	virtual std::string GetTitle()const = 0;
+	// Изменяет заголовок документа
+	virtual void SetTitle(const std::string & title) = 0;
 
 	//// Сообщает о доступности операции Undo
 	//virtual bool CanUndo()const = 0;
