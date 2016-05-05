@@ -1,4 +1,4 @@
-// ISpringWord.cpp : Defines the entry point for the console application.
+﻿// ISpringWord.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -19,7 +19,7 @@ public:
 	{
 		m_menu.AddItem("help", "Help", [this](istream&) { m_menu.ShowInstructions(); });
 		m_menu.AddItem("exit", "Exit", [this](istream&) { m_menu.Exit(); });
-		m_menu.AddItem("setTitle", "Changes title. Args: <new title>", bind(&CEditor::SetTitle, this, _1));
+		AddMenuItem("setTitle", "Changes title. Args: <new title>", &CEditor::SetTitle);
 		m_menu.AddItem("list", "Show document", bind(&CEditor::List, this, _1));
 	}
 
@@ -29,8 +29,15 @@ public:
 	}
 
 private:
+	// Указатель на метод класса CEditor, принимающий istream& и возвращающий void
+	typedef void (CEditor::*MenuHandler)(istream & in);
 
-	// TODO: �������� ������ ������ ����������
+	void AddMenuItem(const string & shortcut, const string & description, MenuHandler handler)
+	{
+		m_menu.AddItem(shortcut, description, bind(handler, this, _1));
+	}
+
+	// TODO: скипнуть первый пробел элегантнее
 	void SetTitle(istream & in)
 	{
 		string head;
