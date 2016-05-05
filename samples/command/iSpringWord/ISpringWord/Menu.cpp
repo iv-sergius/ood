@@ -1,50 +1,56 @@
 #include "stdafx.h"
 #include "Menu.h"
 
-inline void CMenu::AddItem(const std::string & shortcut, const std::string & description, const Command & command)
+using namespace std;
+
+void CMenu::AddItem(const string & shortcut, const string & description, const Command & command)
 {
 	m_items.emplace_back(shortcut, description, command);
 }
 
-inline void CMenu::Run()
+void CMenu::Run()
 {
 	ShowInstructions();
 
-	std::string command;
-	while ((std::cout << ">")
-		&& getline(std::cin, command)
+	string command;
+	while ((cout << ">")
+		&& getline(cin, command)
 		&& ExecuteCommand(command))
 	{
 	}
 }
 
-inline void CMenu::ShowInstructions() const
+void CMenu::ShowInstructions() const
 {
-	std::cout << "Commands list:\n";
+	cout << "Commands list:\n";
 	for (auto & item : m_items)
 	{
-		std::cout << "  " << item.shortcut << ": " << item.description << "\n";
+		cout << "  " << item.shortcut << ": " << item.description << "\n";
 	}
 }
 
-inline void CMenu::Exit()
+void CMenu::Exit()
 {
 	m_exit = true;
 }
 
-inline bool CMenu::ExecuteCommand(const std::string & command)
+bool CMenu::ExecuteCommand(const string & command)
 {
+	istringstream iss(command);
+	string name;
+	iss >> name;
+
 	m_exit = false;
 	auto it = boost::find_if(m_items, [&](const Item & item) {
-		return item.shortcut == command;
+		return item.shortcut == name;
 	});
 	if (it != m_items.end())
 	{
-		it->command();
+		it->command(iss);
 	}
 	else
 	{
-		std::cout << "Unknown command\n";
+		cout << "Unknown command\n";
 	}
 	return !m_exit;
 }

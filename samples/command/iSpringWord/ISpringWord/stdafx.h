@@ -16,6 +16,7 @@
 #include <iostream>
 #include <boost/range/algorithm/find_if.hpp>
 #include <functional>
+#include <sstream>
 
 
 // TODO: reference additional headers your program requires here
