@@ -114,45 +114,25 @@ class CBookCatalog
 public:
 	typedef shared_ptr<const CBook> CConstBookPtr;
 	typedef multimap<string, CConstBookPtr> BooksByTitle;
-	typedef multimap<int, CConstBookPtr> BooksByPublicationYear;
 
 	void AddBook(const CBook & book)
 	{
 		auto bookCopy = make_shared<CBook>(book);
 
-		BooksByTitle::iterator it = m_booksByTitle.emplace(book.GetTitle(), bookCopy);
-		
-		try
-		{
-			m_booksByPublicationYear.emplace(book.GetPublicationYear(), bookCopy);
-		}
-		catch (...)
-		{
-			m_booksByTitle.erase(it);
-		}
+		m_booksByTitle.emplace(book.GetTitle(), bookCopy);
 	}
 
-	unique_ptr<IConstBookIterator> GetBooksByTitleIterator()const
+	unique_ptr<IConstBookIterator> GetIterator()const
 	{
 		return MakeMapValueIterator<const CBook>(m_booksByTitle.cbegin(), m_booksByTitle.cend());
 	}
 
-	unique_ptr<IConstBookIterator> GetBooksSortedByPublicationYearIterator()const
-	{
-		return  MakeMapValueIterator<const CBook>(m_booksByPublicationYear.cbegin(), m_booksByPublicationYear.cend());
-	}
-
-	const auto & GetBooksSortedByTitle()const
+	const auto & GetBooks()const
 	{
 		return m_booksByTitle;
 	}
-	const auto & GetBooksSortedByPublicationYear()const
-	{
-		return m_booksByPublicationYear;
-	}
 private:
 	BooksByTitle m_booksByTitle;
-	BooksByPublicationYear m_booksByPublicationYear;
 };
 
 ostream & operator << (ostream & out, const CBook & book)
@@ -174,16 +154,7 @@ void PrintLibraryBooks(const CLibrary & library)
 
 void PrintCatalogBooksSortedByTitle(const CBookCatalog & catalog)
 {
-	auto & books = catalog.GetBooksSortedByTitle();
-	for (auto & titleAndBook : books)
-	{
-		cout << *titleAndBook.second << endl;
-	}
-}
-
-void PrintCatalogBooksSortedByPublicationYear(const CBookCatalog & catalog)
-{
-	auto & books = catalog.GetBooksSortedByPublicationYear();
+	auto & books = catalog.GetBooks();
 	for (auto & titleAndBook : books)
 	{
 		cout << *titleAndBook.second << endl;
@@ -261,16 +232,13 @@ int main()
 	PrintLibraryBooks(lib);
 	cout << endl << "==== Catalog books sorted by title ====" << endl;
 	PrintCatalogBooksSortedByTitle(catalog);
-	cout << endl << "==== Catalog books sorted by publication year ====" << endl;
-	PrintCatalogBooksSortedByPublicationYear(catalog);
 
 	cout << endl << "==== Books library books using iterator ====" << endl;
 	PrintBooks(lib.GetIterator());
 	cout << endl << "==== Catalog books sorted by title uning iterator ====" << endl;
-	PrintBooks(catalog.GetBooksByTitleIterator());
-	cout << endl << "==== Catalog books sorted by publication year using iterator ====" << endl;
-	PrintBooks(catalog.GetBooksSortedByPublicationYearIterator());
+	PrintBooks(catalog.GetIterator());
 
+	return 0;
 }
 
 
