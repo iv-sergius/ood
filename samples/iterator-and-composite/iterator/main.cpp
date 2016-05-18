@@ -64,7 +64,7 @@ public:
 		return *m_books.at(index);
 	}
 
-	unique_ptr<IConstBookIterator> GetIterator()const;
+	unique_ptr<IConstBookIterator> CreateIterator()const;
 private:
 	vector<CBookPtr> m_books;
 };
@@ -122,7 +122,7 @@ public:
 		m_booksByTitle.emplace(book.GetTitle(), bookCopy);
 	}
 
-	unique_ptr<IConstBookIterator> GetIterator()const
+	unique_ptr<IConstBookIterator> CreateIterator()const
 	{
 		return MakeMapValueIterator<const CBook>(m_booksByTitle.cbegin(), m_booksByTitle.cend());
 	}
@@ -198,7 +198,7 @@ private:
 
 };
 
-unique_ptr<IConstBookIterator> CLibrary::GetIterator() const
+unique_ptr<IConstBookIterator> CLibrary::CreateIterator() const
 {
 	return make_unique<CConstLibraryBookIterator>(*this);
 }
@@ -234,9 +234,9 @@ int main()
 	PrintCatalogBooksSortedByTitle(catalog);
 
 	cout << endl << "==== Books library books using iterator ====" << endl;
-	PrintBooks(lib.GetIterator());
+	PrintBooks(lib.CreateIterator());
 	cout << endl << "==== Catalog books sorted by title uning iterator ====" << endl;
-	PrintBooks(catalog.GetIterator());
+	PrintBooks(catalog.CreateIterator());
 
 	return 0;
 }
