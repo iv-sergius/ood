@@ -39,7 +39,15 @@ private:
 
 typedef IIterator<const CBook> IConstBookIterator;
 
-class CLibrary
+class IBooks
+{
+public:
+	virtual unique_ptr<IConstBookIterator> CreateIterator()const = 0;
+
+	virtual ~IBooks() = default;
+};
+
+class CLibrary : public IBooks
 {
 public:
 	typedef unique_ptr<CBook> CBookPtr;
@@ -64,7 +72,7 @@ public:
 		return *m_books.at(index);
 	}
 
-	unique_ptr<IConstBookIterator> CreateIterator()const;
+	unique_ptr<IConstBookIterator> CreateIterator()const override;
 private:
 	vector<CBookPtr> m_books;
 };
@@ -109,7 +117,7 @@ unique_ptr<IIterator<T>> MakeMapValueIterator(const UnderlyingIteratorType & beg
 }
 
 
-class CBookCatalog
+class CBookCatalog : public IBooks
 {
 public:
 	typedef shared_ptr<const CBook> CConstBookPtr;
@@ -122,7 +130,7 @@ public:
 		m_booksByTitle.emplace(book.GetTitle(), bookCopy);
 	}
 
-	unique_ptr<IConstBookIterator> CreateIterator()const
+	unique_ptr<IConstBookIterator> CreateIterator()const override
 	{
 		return MakeMapValueIterator<const CBook>(m_booksByTitle.cbegin(), m_booksByTitle.cend());
 	}
@@ -152,7 +160,7 @@ void PrintLibraryBooks(const CLibrary & library)
 	}
 }
 
-void PrintCatalogBooksSortedByTitle(const CBookCatalog & catalog)
+void PrintCatalogBooks(const CBookCatalog & catalog)
 {
 	auto & books = catalog.GetBooks();
 	for (auto & titleAndBook : books)
@@ -203,12 +211,13 @@ unique_ptr<IConstBookIterator> CLibrary::CreateIterator() const
 	return make_unique<CConstLibraryBookIterator>(*this);
 }
 
-void PrintBooks(CIteratorWrapper<const CBook> it)
+void PrintBooks(const IBooks & books)
 {
-	while (it.HasNext())
+	auto it = books.CreateIterator();
+	while (it->HasNext())
 	{
-		cout << it.Get() << endl;
-		it.Next();
+		cout << it->Get() << endl;
+		it->Next();
 	}
 }
 
@@ -231,12 +240,12 @@ int main()
 	cout << "==== Books from Library ====" << endl;
 	PrintLibraryBooks(lib);
 	cout << endl << "==== Catalog books sorted by title ====" << endl;
-	PrintCatalogBooksSortedByTitle(catalog);
+	PrintCatalogBooks(catalog);
 
 	cout << endl << "==== Books library books using iterator ====" << endl;
-	PrintBooks(lib.CreateIterator());
+	PrintBooks(lib);
 	cout << endl << "==== Catalog books sorted by title uning iterator ====" << endl;
-	PrintBooks(catalog.CreateIterator());
+	PrintBooks(catalog);
 
 	return 0;
 }
