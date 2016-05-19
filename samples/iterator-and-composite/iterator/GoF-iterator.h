@@ -53,11 +53,10 @@ public:
 		return m_it->Get();
 	}
 
-	virtual void Next()final
+	void Next()
 	{
 		return m_it->Next();
 	}
-
 private:
 	std::unique_ptr<IteratorType> m_it;
 };

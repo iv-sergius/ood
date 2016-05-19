@@ -78,10 +78,10 @@ private:
 };
 
 template <typename T, typename IteratorType>
-class CMapValueIterator : public IIterator<T>
+class CMapValuePtrIterator : public IIterator<T>
 {
 public:
-	CMapValueIterator(const IteratorType& begin, const IteratorType & end)
+	CMapValuePtrIterator(const IteratorType& begin, const IteratorType & end)
 		: m_begin(begin), m_end(end)
 	{
 	}
@@ -91,7 +91,7 @@ public:
 		return m_begin != m_end;
 	}
 
-	const CBook & Get() const override
+	ValueType & Get() const override
 	{
 		return *(m_begin->second);
 	}
@@ -101,9 +101,9 @@ public:
 		++m_begin;
 	}
 
-	unique_ptr<IIterator<T>> Clone() const override
+	unique_ptr<IIterator<ValueType>> Clone() const override
 	{
-		return make_unique<CMapValueIterator>(*this);
+		return make_unique<CMapValuePtrIterator>(*this);
 	}
 private:
 	IteratorType m_begin;
@@ -111,36 +111,35 @@ private:
 };
 
 template <typename T, typename IteratorType>
-unique_ptr<IIterator<T>> MakeMapValueIterator(const IteratorType & begin, const IteratorType & end)
+auto MakeMapValuePtrIterator(const IteratorType & begin, const IteratorType & end)
 {
-	return make_unique<CMapValueIterator<T, IteratorType>>(begin, end);
+	return make_unique<CMapValuePtrIterator<T, IteratorType>>(begin, end);
 }
-
 
 class CBookCatalog : public IBooks
 {
 public:
 	typedef shared_ptr<const CBook> CConstBookPtr;
-	typedef multimap<string, CConstBookPtr> BooksByTitle;
+	typedef multimap<string, CConstBookPtr> Books;
 
 	void AddBook(const CBook & book)
 	{
 		auto bookCopy = make_shared<CBook>(book);
 
-		m_booksByTitle.emplace(book.GetTitle(), bookCopy);
+		m_books.emplace(book.GetTitle(), bookCopy);
 	}
 
 	unique_ptr<IConstBookIterator> CreateIterator()const override
 	{
-		return MakeMapValueIterator<const CBook>(m_booksByTitle.cbegin(), m_booksByTitle.cend());
+		return MakeMapValuePtrIterator<const CBook>(m_books.cbegin(), m_books.cend());
 	}
 
 	const auto & GetBooks()const
 	{
-		return m_booksByTitle;
+		return m_books;
 	}
 private:
-	BooksByTitle m_booksByTitle;
+	Books m_books;
 };
 
 ostream & operator << (ostream & out, const CBook & book)
@@ -221,6 +220,15 @@ void PrintBooks(const IBooks & books)
 	}
 }
 
+void PrintBooks(CIteratorWrapper<const CBook> it)
+{
+	while (it.HasNext())
+	{
+		cout << it.Get() << endl;
+		it.Next();
+	}
+}
+
 int main()
 {
 	CLibrary lib;
@@ -247,6 +255,10 @@ int main()
 	cout << endl << "==== Catalog books sorted by title uning iterator ====" << endl;
 	PrintBooks(catalog);
 
+	cout << endl << "==== Books library books using iterator ====" << endl;
+	PrintBooks(lib.CreateIterator());
+	cout << endl << "==== Catalog books sorted by title uning iterator ====" << endl;
+	PrintBooks(catalog.CreateIterator());
 	return 0;
 }
 
