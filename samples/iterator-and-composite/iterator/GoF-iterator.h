@@ -6,7 +6,6 @@ template <typename T>
 class IIterator
 {
 public:
-	
 	typedef T ValueType;
 
 	virtual bool HasNext()const = 0;

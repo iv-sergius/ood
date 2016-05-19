@@ -77,11 +77,11 @@ private:
 	vector<CBookPtr> m_books;
 };
 
-template <typename T, typename UnderlyingIteratorType>
+template <typename T, typename IteratorType>
 class CMapValueIterator : public IIterator<T>
 {
 public:
-	CMapValueIterator(const UnderlyingIteratorType& begin, const UnderlyingIteratorType & end)
+	CMapValueIterator(const IteratorType& begin, const IteratorType & end)
 		: m_begin(begin), m_end(end)
 	{
 	}
@@ -101,19 +101,19 @@ public:
 		++m_begin;
 	}
 
-	unique_ptr<IConstBookIterator> Clone() const override
+	unique_ptr<IIterator<T>> Clone() const override
 	{
 		return make_unique<CMapValueIterator>(*this);
 	}
 private:
-	UnderlyingIteratorType m_begin;
-	UnderlyingIteratorType m_end;
+	IteratorType m_begin;
+	IteratorType m_end;
 };
 
-template <typename T, typename UnderlyingIteratorType>
-unique_ptr<IIterator<T>> MakeMapValueIterator(const UnderlyingIteratorType & begin, const UnderlyingIteratorType & end)
+template <typename T, typename IteratorType>
+unique_ptr<IIterator<T>> MakeMapValueIterator(const IteratorType & begin, const IteratorType & end)
 {
-	return make_unique<CMapValueIterator<T, UnderlyingIteratorType>>(begin, end);
+	return make_unique<CMapValueIterator<T, IteratorType>>(begin, end);
 }
 
 
