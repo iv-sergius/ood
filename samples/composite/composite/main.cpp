@@ -120,7 +120,7 @@ class CGroupShape : public IGroupShape
 
 };
 
-class ISlide : public IShapeOwner
+class ISlide : public IShapeOwner, public IDrawable
 {
 public:
 	virtual double GetWidth()const = 0;
