@@ -1,35 +1,14 @@
 ﻿#include <cstdint>
+#include "CommonTypes.h"
+#include "Canvas.h"
+#include "version1.h"
+
 #include <boost/optional.hpp>
 #include <memory>
 #include <limits>
 #include <functional>
 
-template <typename T>
-struct Rect
-{
-	T left;
-	T top;
-	T width;
-	T height;
-};
-
-typedef Rect<double> RectD;
-typedef uint32_t RGBAColor;
-
 using boost::optional;
-
-class ICanvas
-{
-public:
-	virtual void SetLineStyle(double width, RGBAColor color) = 0;
-	virtual void BeginFill(RGBAColor color) = 0;
-	virtual void EndFill() = 0;
-	virtual void MoveTo(double x, double y) = 0;
-	virtual void LineTo(double x, double y) = 0;
-	virtual void DrawEllipse(double left, double top, double width, double height) = 0;
-	
-	virtual ~ICanvas() = 0;
-};
 
 class IDrawable
 {
@@ -39,7 +18,7 @@ public:
 	virtual ~IDrawable() = default;
 };
 
-class IOutlineStyle
+class IStyle
 {
 public:
 	virtual optional<bool> IsEnabled()const = 0;
@@ -48,22 +27,7 @@ public:
 	virtual optional<RGBAColor> GetColor()const = 0;
 	virtual void SetColor(RGBAColor color) = 0;
 
-	virtual optional<double> GetWidth()const = 0;
-	virtual void SetWidth(double width) = 0;
-
-	virtual ~IOutlineStyle() = default;
-};
-
-class IFillStyle
-{
-public:
-	virtual optional<bool> IsEnabled()const = 0;
-	virtual void Enable(bool enable) = 0;
-
-	virtual optional<RGBAColor> GetColor()const = 0;
-	virtual void SetColor(RGBAColor color) = 0;
-
-	virtual ~IFillStyle() = default;
+	virtual ~IStyle() = default;
 };
 
 class IGroupShape;
@@ -74,11 +38,11 @@ public:
 	virtual RectD GetFrame() = 0;
 	virtual void SetFrame(const RectD & rect) = 0;
 
-	virtual IOutlineStyle & GetOutline() = 0;
-	virtual const IOutlineStyle & GetOutline()const = 0;
+	virtual IStyle & GetOutlineStyle() = 0;
+	virtual const IStyle & GetOutlineStyle()const = 0;
 	
-	virtual IFillStyle & GetFill() = 0;
-	virtual const IFillStyle & GetFill()const = 0;
+	virtual IStyle & GetFillStyle() = 0;
+	virtual const IStyle & GetFillStyle()const = 0;
 
 	virtual std::shared_ptr<IGroupShape> GetGroup() = 0;
 	virtual std::shared_ptr<const IGroupShape> GetGroup() const = 0;
@@ -86,21 +50,20 @@ public:
 	virtual ~IShape() = default;
 };
 
-class IShapeOwner
+class IShapes
 {
 public:
-	virtual size_t GetShapesCount() = 0;
+	virtual size_t GetShapesCount()const = 0;
 	virtual void InsertShape(const std::shared_ptr<IShape> & shape, size_t position = std::numeric_limits<size_t>::max()) = 0;
 	virtual std::shared_ptr<IShape> GetShapeAtIndex(size_t index) = 0;
 	virtual void RemoveShapeAtIndex(size_t index) = 0;
 
-	virtual ~IShapeOwner() = default;
+	virtual ~IShapes() = default;
 };
 
-class IGroupShape : public IShape, public IShapeOwner
+class IGroupShape : public IShape, public IShapes
 {
 public:
-	virtual void Ungroup() = 0;
 	virtual ~IGroupShape() = default;
 };
 
@@ -120,11 +83,13 @@ class CGroupShape : public IGroupShape
 
 };
 
-class ISlide : public IShapeOwner, public IDrawable
+class ISlide : public IDrawable
 {
 public:
 	virtual double GetWidth()const = 0;
 	virtual double GetHeight()const = 0;
+
+	virtual IShapes & GetShapes()const = 0;
 
 	virtual ~ISlide() = default;
 };
