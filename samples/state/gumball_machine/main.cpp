@@ -3,8 +3,8 @@
 
 using namespace std;
 
-template <typename MachineType>
-void TestGumballMachine(MachineType & m)
+template <typename GumballMachineType>
+void TestGumballMachine(GumballMachineType & m)
 {
 	cout << m.ToString() << endl;
 
