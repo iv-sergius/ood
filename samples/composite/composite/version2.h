@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Canvas.h"
+
 namespace version2
 {
 
