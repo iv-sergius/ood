@@ -42,7 +42,7 @@ public:
 		return m_height; 
 	}
 
-	void Accept(IShapeVisitor & visitor)const
+	void Accept(IShapeVisitor & visitor)const override
 	{
 		visitor.Visit(*this);
 	}
@@ -59,7 +59,7 @@ public:
 		return m_radius; 
 	}
 
-	void Accept(IShapeVisitor & visitor)const
+	void Accept(IShapeVisitor & visitor)const override
 	{
 		visitor.Visit(*this);
 	}
