@@ -4,6 +4,7 @@
 #pragma once
 
 #include "IMainDlgView.h"
+#include "ChartView.h"
 
 
 class CEquationSolver;
@@ -25,6 +26,7 @@ public:
 	void SetInfiniteSolutions() final;
 	void SetSingleSolution(double solution) final;
 	void SetTwoRootsSolutuion(double root1, double root2) final;
+	IChartView & GetChartView() final;
 
 	sig::connection DoOnCoeffAChange(const CoeffChangeSignal::slot_type & handler) final;
 	sig::connection DoOnCoeffBChange(const CoeffChangeSignal::slot_type & handler) final;
@@ -66,5 +68,6 @@ private:
 	CoeffChangeSignal m_coeffCChanged;
 	InitSignal m_init;
 
-
+private:
+	CChartView m_chart;
 };

@@ -11,6 +11,7 @@ public:
 private:
 	void InitView();
 	void UpdateSolution();
+	void UpdateChart();
 	CEquationSolver & m_solver;
 	IMainDlgView & m_view;
 };

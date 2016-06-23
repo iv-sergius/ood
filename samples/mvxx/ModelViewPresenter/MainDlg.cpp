@@ -64,6 +64,8 @@ BOOL CMainDlg::OnInitDialog()
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
+	m_chart.SubclassDlgItem(IDC_CHART, this);
+
 	m_init();
 
 	UpdateEquation();
@@ -85,6 +87,11 @@ void CMainDlg::SetCoeffs(double a, double b, double c)
 sig::connection CMainDlg::DoOnInit(const InitSignal::slot_type & handler)
 {
 	return m_init.connect(handler);
+}
+
+IChartView & CMainDlg::GetChartView()
+{
+	return m_chart;
 }
 
 void CMainDlg::SetNoSolution()
@@ -149,6 +156,7 @@ void CMainDlg::OnChangeCoeffA()
 	if (UpdateData())
 	{
 		m_coeffAChanged(m_coeffA);
+		UpdateEquation();
 	}
 }
 
@@ -157,6 +165,7 @@ void CMainDlg::OnChangeCoeffB()
 	if (UpdateData())
 	{
 		m_coeffBChanged(m_coeffB);
+		UpdateEquation();
 	}
 }
 
@@ -165,6 +174,7 @@ void CMainDlg::OnChangeCoeffC()
 	if (UpdateData())
 	{
 		m_coeffCChanged(m_coeffC);
+		UpdateEquation();
 	}
 }
 

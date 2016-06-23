@@ -54,6 +54,12 @@
     <ClInclude Include="MVPApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IChartView.h">
+      <Filter>View</Filter>
+    </ClInclude>
+    <ClInclude Include="ChartView.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -69,6 +75,9 @@
       <Filter>Presenter</Filter>
     </ClCompile>
     <ClCompile Include="MVPApp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ChartView.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

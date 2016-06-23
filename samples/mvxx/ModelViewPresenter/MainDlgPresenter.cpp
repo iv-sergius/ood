@@ -2,6 +2,7 @@
 #include "MainDlgPresenter.h"
 #include "IMainDlgView.h"
 #include "EquationSolver.h"
+#include "IChartView.h"
 
 CMainDlgPresenter::CMainDlgPresenter(CEquationSolver & solver, IMainDlgView & view)
 	: m_solver(solver)
@@ -11,13 +12,17 @@ CMainDlgPresenter::CMainDlgPresenter(CEquationSolver & solver, IMainDlgView & vi
 	m_view.DoOnCoeffBChange(std::bind(&CEquationSolver::SetLinearCoeff, &m_solver, std::placeholders::_1));
 	m_view.DoOnCoeffCChange(std::bind(&CEquationSolver::SetConstantCoeff, &m_solver, std::placeholders::_1));
 	m_view.DoOnInit(std::bind(&CMainDlgPresenter::InitView, this));
-	m_solver.DoOnSolutionChange(std::bind(&CMainDlgPresenter::UpdateSolution, this));
+	m_solver.DoOnSolutionChange([this] {
+		UpdateSolution();
+		UpdateChart();
+	});
 }
 
 void CMainDlgPresenter::InitView()
 {
 	m_view.SetCoeffs(m_solver.GetQuadraticCoeff(), m_solver.GetLinearCoeff(), m_solver.GetConstantCoeff());
 	UpdateSolution();
+	UpdateChart();
 }
 
 void CMainDlgPresenter::UpdateSolution()
@@ -49,5 +54,15 @@ void CMainDlgPresenter::UpdateSolution()
 
 	SolutionPrinter printer(m_view);
 	m_solver.GetEquationRoots().apply_visitor(printer);
+}
+
+void CMainDlgPresenter::UpdateChart()
+{
+	IChartView::Points2D points;
+	for (double x = -10.0; x <= +10; x += 0.1)
+	{
+		points.emplace_back(x, m_solver.CalculateValue(x));
+	}
+	m_view.GetChartView().SetData(points);
 }
 

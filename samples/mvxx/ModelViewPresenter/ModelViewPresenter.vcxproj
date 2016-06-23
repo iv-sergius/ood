@@ -181,7 +181,9 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChartView.h" />
     <ClInclude Include="EquationSolver.h" />
+    <ClInclude Include="IChartView.h" />
     <ClInclude Include="IMainDlgView.h" />
     <ClInclude Include="MainDlg.h" />
     <ClInclude Include="MainDlgPresenter.h" />
@@ -192,6 +194,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ChartView.cpp" />
     <ClCompile Include="EquationSolver.cpp" />
     <ClCompile Include="MainDlg.cpp" />
     <ClCompile Include="MainDlgPresenter.cpp" />

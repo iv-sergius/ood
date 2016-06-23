@@ -2,12 +2,16 @@
 
 #include "Signals.h"
 
+class IChartView;
+
 class IMainDlgView
 {
 public:
 	typedef sig::signal<void(double value)> CoeffChangeSignal;
 
 	typedef sig::signal<void()> InitSignal;
+
+	virtual IChartView & GetChartView() = 0;
 
 	virtual void SetNoSolution() = 0;
 	virtual void SetInfiniteSolutions() = 0;
