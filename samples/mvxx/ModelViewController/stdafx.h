@@ -37,6 +37,8 @@
 #include <tuple>
 #include <limits>
 #include <cmath>
+#include <string>
+#include <sstream>
 
 #include <boost/signals2.hpp>
 #include <boost/variant.hpp>

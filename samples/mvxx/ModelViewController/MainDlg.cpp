@@ -24,6 +24,30 @@ CMainDlg::CMainDlg(CEquationSolver & solver, IMainDlgController & controller, CW
 	m_hIcon = AfxGetApp()->LoadIcon(IDR_MAINFRAME);
 }
 
+BOOL CMainDlg::PreTranslateMessage(MSG * msg)
+{
+	if (msg->message == WM_KEYDOWN && msg->wParam == VK_RETURN)
+	{
+		auto focus = GetFocus();
+		if (focus == GetDlgItem(IDC_COEFF_A))
+		{
+			OnChangeCoeffA();
+			return TRUE;
+		}
+		else if (focus == GetDlgItem(IDC_COEFF_B))
+		{
+			OnChangeCoeffB();
+			return TRUE;
+		}
+		else if (focus == GetDlgItem(IDC_COEFF_C))
+		{
+			OnChangeCoeffC();
+			return TRUE;
+		}
+	}
+	return CDialogEx::PreTranslateMessage(msg);
+}
+
 void CMainDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
@@ -33,41 +57,39 @@ void CMainDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CMainDlg, CDialogEx)
-	ON_EN_UPDATE(IDC_COEFF_A, &CMainDlg::OnChangeCoeffA)
-	ON_EN_CHANGE(IDC_COEFF_B, &CMainDlg::OnChangeCoeffB)
-	ON_EN_CHANGE(IDC_COEFF_C, &CMainDlg::OnChangeCoeffC)
-	ON_WM_DESTROY()
+	ON_EN_KILLFOCUS(IDC_COEFF_A, &CMainDlg::OnKillfocusCoeffA)
+	ON_EN_KILLFOCUS(IDC_COEFF_B, &CMainDlg::OnKillfocusCoeffB)
+	ON_EN_KILLFOCUS(IDC_COEFF_C, &CMainDlg::OnKillfocusCoeffC)
 END_MESSAGE_MAP()
 
-
-// CMainDlg message handlers
 
 BOOL CMainDlg::OnInitDialog()
 {
 	CDialogEx::OnInitDialog();
 
-	// Set the icon for this dialog.  The framework does this automatically
-	//  when the application's main window is not a dialog
 	SetIcon(m_hIcon, TRUE);			// Set big icon
 	SetIcon(m_hIcon, FALSE);		// Set small icon
 
-	// TODO: Add extra initialization here
 	m_solutionChangeConnection = m_solver.DoOnSolutionChange([=] {
-		UpdateSolution();
+		UpdateEquation();
 	});
 
-	UpdateSolution();
+	UpdateEquation();
 
 	return TRUE;  // return TRUE  unless you set the focus to a control
 }
 
 void CMainDlg::SetSolutionText(const std::wstring & text)
 {
-	CDataExchange dx(this, false);
 	SetDlgItemText(IDC_SOLUTION, text.c_str());
 }
 
-void CMainDlg::UpdateSolution()
+void CMainDlg::SetEquationText(const std::wstring & text)
+{
+	SetDlgItemText(IDC_EQUATION, text.c_str());
+}
+
+void CMainDlg::UpdateEquation()
 {
 	auto solution = m_solver.GetEquationRoots();
 	struct SolutionPrinter : boost::static_visitor<void>
@@ -97,30 +119,56 @@ void CMainDlg::UpdateSolution()
 
 	SolutionPrinter printer(*this);
 	solution.apply_visitor(printer);
+
+	auto ToSignedString = [](double value) {
+		std::wostringstream strm;
+		strm << std::abs(value);
+
+		return ((value < 0) ? L"- " : L"+ ") + strm.str();
+	};
+
+	SetEquationText((boost::wformat(L"%1%x\u00b2 %2%x %3%") % m_solver.GetQuadraticCoeff() % ToSignedString(m_solver.GetLinearCoeff()) % ToSignedString(m_solver.GetConstantCoeff())).str());
 }
 
 void CMainDlg::OnChangeCoeffA()
 {
-	UpdateData();
-	m_controller.SetCoeffA(m_coeffA);
+	if (UpdateData())
+	{
+		m_controller.SetCoeffA(m_coeffA);
+	}
 }
 
 void CMainDlg::OnChangeCoeffB()
 {
-	UpdateData();
-	m_controller.SetCoeffB(m_coeffB);
+	if (UpdateData())
+	{
+		m_controller.SetCoeffB(m_coeffB);
+	}
 }
 
 void CMainDlg::OnChangeCoeffC()
 {
-	UpdateData();
-	m_controller.SetCoeffC(m_coeffC);
+	if (UpdateData())
+	{
+		m_controller.SetCoeffC(m_coeffC);
+	}
 }
 
-
-void CMainDlg::OnDestroy()
+void CMainDlg::OnOK()
 {
-	CDialogEx::OnDestroy();
+}
 
-	// TODO: Add your message handler code here
+void CMainDlg::OnKillfocusCoeffA()
+{
+	OnChangeCoeffA();
+}
+
+void CMainDlg::OnKillfocusCoeffB()
+{
+	OnChangeCoeffB();
+}
+
+void CMainDlg::OnKillfocusCoeffC()
+{
+	OnChangeCoeffC();
 }
