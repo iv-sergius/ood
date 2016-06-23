@@ -127,7 +127,7 @@ void CMainDlg::UpdateEquation()
 		return ((value < 0) ? L"- " : L"+ ") + strm.str();
 	};
 
-	SetEquationText((boost::wformat(L"%1%x\u00b2 %2%x %3%") % m_solver.GetQuadraticCoeff() % ToSignedString(m_solver.GetLinearCoeff()) % ToSignedString(m_solver.GetConstantCoeff())).str());
+	SetEquationText((boost::wformat(L"%1%x\u00b2 %2%x %3% = 0") % m_solver.GetQuadraticCoeff() % ToSignedString(m_solver.GetLinearCoeff()) % ToSignedString(m_solver.GetConstantCoeff())).str());
 }
 
 void CMainDlg::OnChangeCoeffA()

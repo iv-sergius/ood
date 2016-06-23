@@ -146,7 +146,7 @@ void CMainDlg::UpdateEquation()
 		return ((value < 0) ? L"- " : L"+ ") + strm.str();
 	};
 
-	SetEquationText((boost::wformat(L"%1%x\u00b2 %2%x %3%") % m_coeffA % ToSignedString(m_coeffB) % ToSignedString(m_coeffC)).str());
+	SetEquationText((boost::wformat(L"%1%x\u00b2 %2%x %3% = 0") % m_coeffA % ToSignedString(m_coeffB) % ToSignedString(m_coeffC)).str());
 }
 
 void CMainDlg::OnChangeCoeffA()
