@@ -36,9 +36,6 @@
     <ClInclude Include="Resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MVCApp.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="EquationSolver.h">
       <Filter>Model</Filter>
     </ClInclude>
@@ -54,12 +51,12 @@
     <ClInclude Include="IMainDlgView.h">
       <Filter>View</Filter>
     </ClInclude>
+    <ClInclude Include="MVPApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MVCApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EquationSolver.cpp">
@@ -70,6 +67,9 @@
     </ClCompile>
     <ClCompile Include="MainDlgPresenter.cpp">
       <Filter>Presenter</Filter>
+    </ClCompile>
+    <ClCompile Include="MVPApp.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

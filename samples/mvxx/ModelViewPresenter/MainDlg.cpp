@@ -3,7 +3,7 @@
 //
 
 #include "stdafx.h"
-#include "MVCApp.h"
+#include "resource.h"
 #include "MainDlg.h"
 #include "afxdialogex.h"
 #include "EquationSolver.h"

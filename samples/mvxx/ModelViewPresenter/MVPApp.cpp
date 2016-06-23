@@ -3,7 +3,7 @@
 //
 
 #include "stdafx.h"
-#include "MVCApp.h"
+#include "MVPApp.h"
 #include "MainDlg.h"
 #include "MainDlgPresenter.h"
 #include "EquationSolver.h"
@@ -13,24 +13,24 @@
 #endif
 
 
-// CMVCApp
+// CMVPApp
 
-BEGIN_MESSAGE_MAP(CMVCApp, CWinApp)
+BEGIN_MESSAGE_MAP(CMVPApp, CWinApp)
 	ON_COMMAND(ID_HELP, &CWinApp::OnHelp)
 END_MESSAGE_MAP()
 
 
-// CMVCApp construction
+// CMVPApp construction
 
-CMVCApp::CMVCApp()
+CMVPApp::CMVPApp()
 {
 	// TODO: add construction code here,
 	// Place all significant initialization in InitInstance
 }
 
-CMVCApp theApp;
+CMVPApp theApp;
 
-BOOL CMVCApp::InitInstance()
+BOOL CMVPApp::InitInstance()
 {
 	// InitCommonControlsEx() is required on Windows XP if an application
 	// manifest specifies use of ComCtl32.dll version 6 or later to enable
