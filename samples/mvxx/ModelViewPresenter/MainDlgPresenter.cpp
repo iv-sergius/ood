@@ -14,11 +14,6 @@ CMainDlgPresenter::CMainDlgPresenter(CEquationSolver & solver, IMainDlgView & vi
 	m_solver.DoOnSolutionChange(std::bind(&CMainDlgPresenter::UpdateSolution, this));
 }
 
-void CMainDlgPresenter::Run()
-{
-	m_view.Show();
-}
-
 void CMainDlgPresenter::InitView()
 {
 	m_view.SetCoeffs(m_solver.GetQuadraticCoeff(), m_solver.GetLinearCoeff(), m_solver.GetConstantCoeff());

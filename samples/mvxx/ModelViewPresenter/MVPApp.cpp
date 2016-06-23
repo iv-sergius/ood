@@ -52,7 +52,7 @@ BOOL CMVPApp::InitInstance()
 	CMainDlg dlg;
 	CMainDlgPresenter presenter(solver, dlg);
 	m_pMainWnd = &dlg;
-	presenter.Run();
+	dlg.DoModal();
 
 	// Since the dialog has been closed, return FALSE so that we exit the
 	//  application, rather than start the application's message pump.

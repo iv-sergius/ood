@@ -7,10 +7,7 @@ class IMainDlgView
 public:
 	typedef sig::signal<void(double value)> CoeffChangeSignal;
 
-	virtual void Show() = 0;
-
 	typedef sig::signal<void()> InitSignal;
-
 
 	virtual void SetNoSolution() = 0;
 	virtual void SetInfiniteSolutions() = 0;

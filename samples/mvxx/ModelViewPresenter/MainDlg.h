@@ -20,7 +20,6 @@ public:
 	enum { IDD = IDD_MODELVIEWCONTROLLER_DIALOG };
 #endif
 
-	void Show() final;
 	void SetCoeffs(double a, double b, double c) final;
 	void SetNoSolution() final;
 	void SetInfiniteSolutions() final;

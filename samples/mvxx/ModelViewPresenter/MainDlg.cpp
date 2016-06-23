@@ -107,11 +107,6 @@ void CMainDlg::SetTwoRootsSolutuion(double root1, double root2)
 	SetSolutionText((boost::wformat(L"Two roots: %1% and %2%") % root1 % root2).str());
 }
 
-void CMainDlg::Show()
-{
-	DoModal();
-}
-
 sig::connection CMainDlg::DoOnCoeffAChange(const CoeffChangeSignal::slot_type & handler)
 {
 	return m_coeffAChanged.connect(handler);

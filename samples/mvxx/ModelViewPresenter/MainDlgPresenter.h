@@ -8,7 +8,6 @@ class CMainDlgPresenter
 {
 public:
 	CMainDlgPresenter(CEquationSolver & solver, IMainDlgView & view);
-	void Run();
 private:
 	void InitView();
 	void UpdateSolution();
