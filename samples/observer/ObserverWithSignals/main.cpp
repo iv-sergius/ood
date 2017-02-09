@@ -2,20 +2,19 @@
 #include <map>
 #include <iostream>
 #include <boost/noncopyable.hpp>
+#include <boost/signals2.hpp>
 
 using namespace std;
 namespace ph = std::placeholders;
 
+namespace signals = boost::signals2;
 
 class ICurrencyRate
 {
 public:
-	using RateObserver = function<void(double rate)>;
+	using RateSignal = signals::signal<void(double rate)>;
 
-	using Token = uint64_t;
-
-	virtual Token DoOnRateChange(const RateObserver& observer) = 0;
-	virtual void RemoveRateChangeObserver(Token token) = 0;
+	virtual signals::connection DoOnRateChange(const RateSignal::slot_type & slot) = 0;
 	virtual double GetValue()const = 0;
 
 	virtual ~ICurrencyRate() = default;
@@ -29,22 +28,8 @@ public:
 		if (m_rubToUSD != rate)
 		{
 			m_rubToUSD = rate;
-			for (auto & observer : m_observers)
-			{
-				observer.second(m_rubToUSD);
-			}
+			m_rateChangeSignal(rate);
 		}
-	}
-
-	virtual Token DoOnRateChange(const RateObserver& observer) override
-	{
-		do
-		{
-			++m_nextToken;
-		} while (m_observers.find(m_nextToken) != m_observers.end());
-
-		m_observers.emplace(m_nextToken, observer);
-		return m_nextToken;
 	}
 
 	virtual double GetValue() const override
@@ -52,34 +37,22 @@ public:
 		return m_rubToUSD;
 	}
 
-	virtual void RemoveRateChangeObserver(Token token) override
+	virtual signals::connection DoOnRateChange(const RateSignal::slot_type & slot) override
 	{
-		m_observers.erase(token);
+		return m_rateChangeSignal.connect(slot);
 	}
 
 private:
 	double m_rubToUSD = 59.0;
-	Token m_nextToken = 0;
-	map<Token, RateObserver> m_observers;
+	RateSignal m_rateChangeSignal;
 };
 
 class AverageCurrencyRateMonitor : boost::noncopyable
 {
 public:
 	AverageCurrencyRateMonitor(ICurrencyRate & cr)
-		: m_currencyRate(cr)
 	{
-/*
-		cr.DoOnRateChange([this](double rate) {
-			OnCurrencyRateChange(rate);
-		});
-*/
-		m_rateChangeToken = cr.DoOnRateChange(bind(&AverageCurrencyRateMonitor::OnCurrencyRateChange, this, ph::_1));
-	}
-
-	~AverageCurrencyRateMonitor()
-	{
-		m_currencyRate.RemoveRateChangeObserver(m_rateChangeToken);
+		m_rateChangeConnection = cr.DoOnRateChange(bind(&AverageCurrencyRateMonitor::OnCurrencyRateChange, this, ph::_1));
 	}
 
 	double GetAverageRate()const
@@ -96,8 +69,7 @@ private:
 
 	double m_accRate = 0.0;
 	int m_count = 0;
-	ICurrencyRate & m_currencyRate;
-	ICurrencyRate::Token m_rateChangeToken;
+	signals::scoped_connection m_rateChangeConnection;
 };
 
 int main()
