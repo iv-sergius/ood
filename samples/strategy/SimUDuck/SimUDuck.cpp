@@ -76,7 +76,7 @@ public:
 	{
 		m_flyBehavior->Fly();
 	}
-	void Dance()
+	virtual void Dance()
 	{
 		cout << "I'm Dancing" << endl;
 	}
