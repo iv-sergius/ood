@@ -167,22 +167,27 @@ void DrawDuck(Duck const& duck)
 
 void PlayWithDuck(Duck& duck)
 {
-	duck.Quack();
-	duck.Dance();
-	duck.Fly();
 	DrawDuck(duck);
+	duck.Quack();
+	duck.Fly();
+	duck.Dance();
+	cout << endl;
 }
 
 void main()
 {
 	MallardDuck mallarDuck;
 	PlayWithDuck(mallarDuck);
+
 	RedheadDuck redheadDuck;
 	PlayWithDuck(redheadDuck);
+
 	RubberDuck rubberDuck;
 	PlayWithDuck(rubberDuck);
+
 	DeckoyDuck deckoyDuck;
 	PlayWithDuck(deckoyDuck);
+
 	ModelDuck modelDuck;
 	PlayWithDuck(modelDuck);
 	modelDuck.SetFlyBehavior(make_unique<FlyWithWings>());
