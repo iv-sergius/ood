@@ -57,7 +57,7 @@ public:
 class Duck
 {
 public:
-	Duck(unique_ptr<IFlyBehavior>&& flyBehavior, 
+	Duck(unique_ptr<IFlyBehavior>&& flyBehavior,
 		unique_ptr<IQuackBehavior>&& quackBehavior)
 		: m_quackBehavior(move(quackBehavior))
 	{
@@ -76,7 +76,7 @@ public:
 	{
 		m_flyBehavior->Fly();
 	}
-	virtual void Dance()
+	void Dance()
 	{
 		cout << "I'm Dancing" << endl;
 	}
@@ -136,7 +136,7 @@ class RubberDuck : public Duck
 {
 public:
 	RubberDuck()
-		: Duck(make_unique<FlyNoWay>(), make_unique<QuackBehavior>())
+		: Duck(make_unique<FlyNoWay>(), make_unique<SqueakBehavior>())
 	{
 	}
 	void Display() const override
