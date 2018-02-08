@@ -32,12 +32,12 @@ public:
 		}
 	}
 
-	virtual double GetValue() const override
+	double GetValue() const override
 	{
 		return m_rubToUSD;
 	}
 
-	virtual signals::connection DoOnRateChange(const RateSignal::slot_type & slot) override
+	signals::connection DoOnRateChange(const RateSignal::slot_type & slot) override
 	{
 		return m_rateChangeSignal.connect(slot);
 	}

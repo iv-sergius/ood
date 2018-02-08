@@ -26,12 +26,12 @@ public:
 		m_rubToUSD = rate;
 	}
 
-	virtual double GetValue() const override
+	double GetValue() const override
 	{
 		return m_rubToUSD;
 	}
 
-	virtual Connection DoOnRateChange(const RateSignal::slot_type & slot) override
+	Connection DoOnRateChange(const RateSignal::slot_type & slot) override
 	{
 		return m_rubToUSD.Connect1(slot, false);
 	}
@@ -65,6 +65,31 @@ private:
 	ScopedConnection m_rateChangeConnection;
 };
 
+
+class TV
+{
+public:
+	using ChannelSignal = Signal<void(int)>;
+
+	void SetChannel(int ch)
+	{
+		m_channel = ch;
+	}
+
+	int GetChannel()const
+	{
+		return m_channel;
+	}
+
+	Connection DoOnChannelChange(const ChannelSignal::slot_type& slot)
+	{
+		return m_channel.Connect1(slot, false);
+	}
+private:
+	SignallingValue<int> m_channel;
+};
+
+
 int main()
 {
 	Stock s;
@@ -87,6 +112,20 @@ int main()
 	s.SetRate(80);
 	s.SetRate(90);
 	s.SetRate(50);
+
+	TV tv;
+	tv.DoOnChannelChange([&tv](int ch) {
+		if (ch != 1)
+		{
+			cout << "I want to watch channel #1\n";
+			tv.SetChannel(1);
+		}
+	});
+	tv.SetChannel(1);
+
+	tv.SetChannel(8);
+
+	cout << "Current channel is: " << tv.GetChannel() << "\n";
 
 	return 0;
 }

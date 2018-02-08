@@ -36,7 +36,7 @@ public:
 		}
 	}
 
-	virtual Token DoOnRateChange(const RateObserver& observer) override
+	Token DoOnRateChange(const RateObserver& observer) override
 	{
 		do
 		{
@@ -47,12 +47,12 @@ public:
 		return m_nextToken;
 	}
 
-	virtual double GetValue() const override
+	double GetValue() const override
 	{
 		return m_rubToUSD;
 	}
 
-	virtual void RemoveRateChangeObserver(Token token) override
+	void RemoveRateChangeObserver(Token token) override
 	{
 		m_observers.erase(token);
 	}
