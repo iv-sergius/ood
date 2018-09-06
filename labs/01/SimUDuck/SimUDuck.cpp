@@ -16,8 +16,11 @@ class FlyWithWings : public IFlyBehavior
 public:
 	void Fly() override
 	{
-		cout << "I'm flying with wings!!" << endl;
+		++m_amount;
+		cout << "I'm flying with wings!! In " << m_amount << " time!!" << endl;
 	}
+private:
+	int m_amount = 0;
 };
 
 class FlyNoWay : public IFlyBehavior
@@ -223,4 +226,6 @@ void main()
 	PlayWithDuck(modelDuck);
 	modelDuck.SetFlyBehavior(make_unique<FlyWithWings>());
 	PlayWithDuck(modelDuck);
+	modelDuck.Fly();
+	modelDuck.Fly();
 }
