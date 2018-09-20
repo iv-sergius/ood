@@ -1,5 +1,6 @@
 ﻿#pragma once
 #include <iostream>
+#include <iomanip>
 #include <vector>
 #include <algorithm>
 #include <climits>
@@ -14,6 +15,29 @@ struct SWeatherInfo
 	double pressure = 0;
 };
 
+template <typename TData >
+class CParameterStats
+{
+public:
+	void AddValue(TData value)
+	{
+		m_maxValue = value > m_maxValue ? value : m_maxValue;
+		m_minValue = value < m_minValue ? value : m_minValue;
+		m_accValue += value;
+		++m_countValue;
+	}
+	void PrintStatistic(std::ostream &outStream) {
+		outStream << "Max: " << std::setw(4) << m_maxValue 
+			<< "    Min: " << std::setw(4) << m_minValue  
+			<< "    Average: " << std::setw(5) << m_accValue / m_countValue << std::endl;
+	}
+private:
+	TData m_minValue = std::numeric_limits<TData>::max();
+	TData m_maxValue = std::numeric_limits<TData>::min();
+	TData m_accValue = 0;
+	size_t m_countValue = 0;
+};
+
 class CDisplay: public IObserver<SWeatherInfo>
 {
 private:
@@ -23,10 +47,10 @@ private:
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
+		std::cout << "---- Update Display ----" << std::endl;
 		std::cout << "Current Temp " << data.temperature << std::endl;
 		std::cout << "Current Hum " << data.humidity << std::endl;
 		std::cout << "Current Pressure " << data.pressure << std::endl;
-		std::cout << "----------------" << std::endl;
 	}
 };
 
@@ -39,28 +63,21 @@ private:
 	*/
 	void Update(SWeatherInfo const& data) override
 	{
-		if (m_minTemperature > data.temperature)
-		{
-			m_minTemperature = data.temperature;
-		}
-		if (m_maxTemperature < data.temperature)
-		{
-			m_maxTemperature = data.temperature;
-		}
-		m_accTemperature += data.temperature;
-		++m_countAcc;
+		m_humidity.AddValue(data.humidity);
+		m_pressure.AddValue(data.pressure);
+		m_temperature.AddValue(data.temperature);
 
-		std::cout << "Max Temp " << m_maxTemperature << std::endl;
-		std::cout << "Min Temp " << m_minTemperature << std::endl;
-		std::cout << "Average Temp " << (m_accTemperature / m_countAcc) << std::endl;
-		std::cout << "----------------" << std::endl;
+		std::cout << "---- Update StatsDisplay ----" << std::endl;
+		std::cout << "Humidity     ";
+		m_humidity.PrintStatistic(std::cout);
+		std::cout << "Pressure     "; 
+		m_pressure.PrintStatistic(std::cout);
+		std::cout << "Temperature  ";
+		m_temperature.PrintStatistic(std::cout);
 	}
-
-	double m_minTemperature = std::numeric_limits<double>::infinity();
-	double m_maxTemperature = -std::numeric_limits<double>::infinity();
-	double m_accTemperature = 0;
-	unsigned m_countAcc = 0;
-
+	CParameterStats<double> m_humidity;
+	CParameterStats<double> m_pressure;
+	CParameterStats<double> m_temperature;
 };
 
 class CWeatherData : public CObservable<SWeatherInfo>
