@@ -16,7 +16,6 @@ TEST_CASE("Can add observers", "[WeatherData]") {
 	CUnsafeObserver unsafeObserver;
 	wd.RegisterObserver(unsafeObserver);
 	SECTION("Should not fall") {
-		wd.NotifyObservers();
-		CHECK(true);
+		CHECK_NOTHROW(wd.NotifyObservers());
 	}
 }

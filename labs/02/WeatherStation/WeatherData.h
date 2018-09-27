@@ -70,7 +70,7 @@ private:
 	остается публичным
 	*/
 	template <typename TData>
-	void PrintParameter(CParameterStats<TData> const& parameter, const std::string const& parameterName)
+	void PrintParameter(CParameterStats<TData> const& parameter, const std::string & parameterName)
 	{
 		std::cout << std::setw(12) << parameterName << " : "
 			<< " Max: " << std::setw(5) << parameter.GetMax()
