@@ -108,63 +108,9 @@ auto operator << (Component && component, const Decorator & decorate)
 	return decorate(forward<Component>(component));
 }
 
-void DialogWithUser()
-{
-	cout << "Type 1 for coffee or 2 for tea\n";
-	int beverageChoice;
-	cin >> beverageChoice;
-
-	unique_ptr<IBeverage> beverage;
-
-	if (beverageChoice == 1)
-	{
-		beverage = make_unique<CCoffee>();
-	}
-	else if (beverageChoice == 2)
-	{
-		beverage = make_unique<CTea>();
-	}
-	else
-	{
-		return;
-	}
-
-	int condimentChoice;
-	for (;;)
-	{
-		cout << "1 - Lemon, 2 - Cinnamon, 0 - Checkout" << endl;
-		cin >> condimentChoice;
-
-		if (condimentChoice == 1)
-		{
-			//beverage = make_unique<CLemon>(move(beverage));
-			beverage = move(beverage) << MakeCondiment<CLemon>(2);
-		}
-		else if (condimentChoice == 2)
-		{
-			//beverage = make_unique<CCinnamon>(move(beverage));
-			beverage = move(beverage) << MakeCondiment<CCinnamon>();
-		}
-		else if (condimentChoice == 0)
-		{
-			break;
-		}
-		else
-		{
-			return;
-		}
-	}
-
-
-
-	cout << beverage->GetDescription() << ", cost: " << beverage->GetCost() << endl;
-}
-
 
 int main()
 {
-	DialogWithUser();
-	cout << endl;
 	{
 		// Наливаем чашечку латте
 		auto latte = make_unique<CLatte>();
@@ -178,7 +124,7 @@ int main()
 		auto beverage = make_unique<CChocolateCrumbs>(move(iceCubes), 2);
 
 		// Выписываем счет покупателю
-		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
 	}
 
 	{
@@ -193,7 +139,7 @@ int main()
 				2);									// 2 грамма шоколадной крошки
 
 		// Выписываем счет покупателю
-		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
 	}
 
 	// Подробнее рассмотрим работу MakeCondiment и оператора <<
@@ -240,16 +186,33 @@ int main()
 			<< MakeCondiment<CChocolateCrumbs>(2);			// посыпаем шоколадной крошкой
 
 		// Выписываем счет покупателю
-		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
 	}
 
 	{
 		auto beverage = 
-			make_unique<CMilkshake>()					// Наливаем молочный коктейль
+			make_unique<CSmallMilkshake>()					// Наливаем молочный коктейль
 			<< MakeCondiment<CSyrup>(SyrupType::Maple)	// заливаем кленовым сиропом
 			<< MakeCondiment<CCoconutFlakes>(8);		// посыпаем кокосовой стружкой
 
 		// Выписываем счет покупателю
-		cout << beverage->GetDescription() << " costs " << beverage->GetCost() << endl;
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
+	}
+	{
+		auto beverage = make_unique<CBigCapuccino>()
+			<< MakeCondiment<CCream>();
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
+	}
+	{
+		auto beverage = make_unique<CGreenTea>()
+			<< MakeCondiment<CLemon>(3)
+			<< MakeCondiment<CIceCubes>(2, IceCubeType::Dry);
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
+	}
+	{
+		auto beverage = make_unique<CStandartLatte>()
+			<< MakeCondiment<CChocolateSlice>(6)
+			<< MakeCondiment<CLace>(LaceType::Nut);
+		cout << beverage->GetDescription() << " - costs " << beverage->GetCost() << endl;
 	}
 }

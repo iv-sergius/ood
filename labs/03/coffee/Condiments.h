@@ -55,7 +55,7 @@ class CLemon : public CCondimentDecorator
 public:
 	CLemon(IBeveragePtr && beverage, unsigned quantity = 1)
 		: CCondimentDecorator(move(beverage))
-		, m_quantity(quantity)
+		, m_quantity(quantity )
 	{}
 protected:
 	double GetCondimentCost()const override
@@ -176,4 +176,72 @@ protected:
 	}
 private:
 	unsigned m_mass;
+};
+
+// Добавка сливки
+class CCream : public CCondimentDecorator
+{
+public:
+	CCream(IBeveragePtr && beverage)
+		:CCondimentDecorator(move(beverage))
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 25;
+	}
+	std::string GetCondimentDescription()const override
+	{
+		return "Cream";
+	}
+};
+
+// Добавка шоколад дольками
+class CChocolateSlice : public CCondimentDecorator
+{
+public:
+	CChocolateSlice(IBeveragePtr && beverage, unsigned quantity = 1)
+		:CCondimentDecorator(move(beverage)),
+		m_quantity(quantity < 5 ? quantity : 5)
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 10 * m_quantity;
+	}
+	std::string GetCondimentDescription()const override
+	{
+		return "Chocolate slice x " + std::to_string(m_quantity);
+	}
+private:
+	unsigned m_quantity;
+};
+
+// Тип сиропа
+enum class LaceType
+{
+	Nut,		// Ореховый
+	Chocolate,	// Шоколадный
+};
+
+// Добавка ликер
+class CLace : public CCondimentDecorator
+{
+public:
+	CLace(IBeveragePtr && beverage, LaceType type)
+		:CCondimentDecorator(move(beverage)),
+		m_type(type)
+	{}
+protected:
+	double GetCondimentCost()const override
+	{
+		return 50;
+	}
+	std::string GetCondimentDescription()const override
+	{
+		return std::string(m_type == LaceType::Nut ? "Nut" : "Chocolate") 
+			+ " lace";
+	}
+private:
+	LaceType m_type;
 };
