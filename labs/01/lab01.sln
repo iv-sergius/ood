@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2016
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimUDuck12", "SimUDuck\SimUDuck.vcxproj", "{C6A1A03E-E1F2-44DD-B419-94FFD3814603}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimUDuckFunc", "SimUDuckFunc\SimUDuckFunc.vcxproj", "{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{C6A1A03E-E1F2-44DD-B419-94FFD3814603}.Release|x64.Build.0 = Release|x64
 		{C6A1A03E-E1F2-44DD-B419-94FFD3814603}.Release|x86.ActiveCfg = Release|Win32
 		{C6A1A03E-E1F2-44DD-B419-94FFD3814603}.Release|x86.Build.0 = Release|Win32
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Debug|x64.ActiveCfg = Debug|x64
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Debug|x64.Build.0 = Debug|x64
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Debug|x86.ActiveCfg = Debug|Win32
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Debug|x86.Build.0 = Debug|Win32
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Release|x64.ActiveCfg = Release|x64
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Release|x64.Build.0 = Release|x64
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Release|x86.ActiveCfg = Release|Win32
+		{FBFB0A74-8E72-4A5E-AC02-7A41459E4ABF}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
