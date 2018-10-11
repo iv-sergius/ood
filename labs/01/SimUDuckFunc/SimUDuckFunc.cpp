@@ -11,9 +11,9 @@ using FlyBehavior = std::function<void()>;
 using QuackBehavior = std::function<void()>;
 using DanceBehavior = std::function<void()>;
 
-FlyBehavior FlyWithWings = []
+FlyBehavior FlyWithWings = [flyCount = 0]() mutable
 {
-	cout << "I'm flying with wings!!" << endl;
+	cout << "I'm flying with wings in " << ++flyCount << " time!!" << endl;
 };
 
 FlyBehavior FlyNoWay = [] {};
