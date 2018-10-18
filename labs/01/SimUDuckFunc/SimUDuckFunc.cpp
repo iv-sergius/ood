@@ -11,12 +11,15 @@ using FlyBehavior = std::function<void()>;
 using QuackBehavior = std::function<void()>;
 using DanceBehavior = std::function<void()>;
 
-FlyBehavior FlyWithWings = [flyCount = 0]() mutable
+FlyBehavior GetFlyWithWingsBehavior() // function return functional object
 {
-	cout << "I'm flying with wings in " << ++flyCount << " time!!" << endl;
-};
+	return[flyCount = 0]() mutable
+	{
+		cout << "I'm flying with wings in " << ++flyCount << " time!!" << endl;
+	};
+}
 
-FlyBehavior FlyNoWay = [] {};
+FlyBehavior FlyNoWay = [] {}; // static funtional object
 
 QuackBehavior JustQuack = [] //QuackBehavior
 {
@@ -83,7 +86,9 @@ class MallardDuck : public Duck
 {
 public:
 	MallardDuck()
-		: Duck(FlyWithWings, JustQuack, DanceWaltz)
+// GetFlyWithWingsBehavior() return new functional object
+// JustQuack and DanceWaltz are static functional object thats copy
+		: Duck(GetFlyWithWingsBehavior(), JustQuack, DanceWaltz)
 	{}
 
 	void Display() const override
@@ -96,7 +101,7 @@ class RedheadDuck : public Duck
 {
 public:
 	RedheadDuck()
-		: Duck(FlyWithWings, JustQuack, DanceMinuet)
+		: Duck(GetFlyWithWingsBehavior(), JustQuack, DanceMinuet)
 	{
 	}
 	void Display() const override
@@ -158,10 +163,13 @@ void PlayWithDuck(Duck& duck)
 
 void main()
 {
+	GetFlyWithWingsBehavior()(); // it's look funny
+
 	MallardDuck mallarDuck;
 	PlayWithDuck(mallarDuck);
 
 	RedheadDuck redheadDuck;
+	PlayWithDuck(redheadDuck);
 	PlayWithDuck(redheadDuck);
 
 	RubberDuck rubberDuck;
@@ -172,7 +180,7 @@ void main()
 
 	ModelDuck modelDuck;
 	PlayWithDuck(modelDuck);
-	modelDuck.SetFlyBehavior(FlyWithWings);
+	modelDuck.SetFlyBehavior(GetFlyWithWingsBehavior());
 	PlayWithDuck(modelDuck);
 	modelDuck.Fly();
 	modelDuck.Fly();
