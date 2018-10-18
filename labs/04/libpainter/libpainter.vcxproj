@@ -139,15 +139,22 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Designer.h" />
+    <ClInclude Include="Elipse.h" />
     <ClInclude Include="IShapeFactory.h" />
     <ClInclude Include="PictureDraft.h" />
+    <ClInclude Include="Rectangle.h" />
+    <ClInclude Include="RegularPolygon.h" />
     <ClInclude Include="Shape.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Triangle.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Designer.cpp" />
+    <ClCompile Include="Elipse.cpp" />
     <ClCompile Include="PictureDraft.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="RegularPolygon.cpp" />
     <ClCompile Include="Shape.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -155,6 +162,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Triangle.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
