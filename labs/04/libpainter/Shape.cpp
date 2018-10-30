@@ -9,5 +9,5 @@ CShape::CShape(Color color)
 
 Color CShape::GetColor()
 {
-	return Color();
+	return m_color;
 }

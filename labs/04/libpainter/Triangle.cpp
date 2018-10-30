@@ -11,15 +11,15 @@ CTriangle::CTriangle(SPoint vertex1, SPoint vertex2, SPoint vertex3, Color color
 
 SPoint CTriangle::GetVertex1()
 {
-	return SPoint();
+	return m_vertex1;
 }
 
 SPoint CTriangle::GetVertex2()
 {
-	return SPoint();
+	return m_vertex2;
 }
 
 SPoint CTriangle::GetVertex3()
 {
-	return SPoint();
+	return m_vertex3;
 }

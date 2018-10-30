@@ -7,19 +7,27 @@ CRegularPolygon::CRegularPolygon(uint32_t vertexCount, SPoint center, float radi
 	, m_center(center)
 	, m_radius(radius)
 {
+	if (vertexCount < 3)
+	{
+		throw std::invalid_argument("VertexCount must be at least 3");
+	}
+	if (radius < 0.f)
+	{
+		throw std::invalid_argument("Radius must be non-negative");
+	}
 }
 
 uint32_t CRegularPolygon::GetVertexCount()
 {
-	return size_t();
+	return m_count;
 }
 
 SPoint CRegularPolygon::GetCenter()
 {
-	return SPoint();
+	return m_center;
 }
 
 float CRegularPolygon::GetRadius()
 {
-	return 0.0f;
+	return m_radius;
 }

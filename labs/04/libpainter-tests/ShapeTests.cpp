@@ -36,11 +36,11 @@ BOOST_AUTO_TEST_SUITE(CShape_inheritor)
 		BOOST_AUTO_TEST_SUITE(constructor_throw)
 			BOOST_AUTO_TEST_CASE(on_negative_horizontal_raidus)
 			{
-				BOOST_CHECK_THROW(CElipse(SPoint(), -1.f, 1.f, Color()), std::out_of_range);
+				BOOST_CHECK_THROW(CElipse(SPoint(), -1.f, 1.f, Color()), std::invalid_argument);
 			}
 			BOOST_AUTO_TEST_CASE(on_negative_vertical_raidus)
 			{
-				BOOST_CHECK_THROW(CElipse(SPoint(), 1.f, -1.f, Color()), std::out_of_range);
+				BOOST_CHECK_THROW(CElipse(SPoint(), 1.f, -1.f, Color()), std::invalid_argument);
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 
@@ -76,13 +76,13 @@ BOOST_AUTO_TEST_SUITE(CShape_inheritor)
 		BOOST_AUTO_TEST_SUITE(constructor_throw)
 			BOOST_AUTO_TEST_CASE(on_VertexCount_less_than_3)
 			{
-				BOOST_CHECK_THROW(CRegularPolygon(0, SPoint(), 1.f, Color()), std::out_of_range);
-				BOOST_CHECK_THROW(CRegularPolygon(2, SPoint(), 1.f, Color()), std::out_of_range);
+				BOOST_CHECK_THROW(CRegularPolygon(0, SPoint(), 1.f, Color()), std::invalid_argument);
+				BOOST_CHECK_THROW(CRegularPolygon(2, SPoint(), 1.f, Color()), std::invalid_argument);
 				BOOST_CHECK_NO_THROW(CRegularPolygon(3, SPoint(), 1.f, Color()));
 			}
 			BOOST_AUTO_TEST_CASE(on_negative_raidus)
 			{
-				BOOST_CHECK_THROW(CRegularPolygon(3, SPoint(), -1.f, Color()), std::out_of_range);
+				BOOST_CHECK_THROW(CRegularPolygon(3, SPoint(), -1.f, Color()), std::invalid_argument);
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 		

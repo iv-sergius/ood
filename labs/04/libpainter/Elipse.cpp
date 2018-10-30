@@ -7,19 +7,27 @@ CElipse::CElipse(SPoint center, float gorizontalRadius, float verticalRadius, Co
 	, m_gorizontalR(gorizontalRadius)
 	, m_verticalR(verticalRadius)
 {
+	if (gorizontalRadius < 0.)
+	{
+		throw std::invalid_argument("Gorizontal radius must be non-negative");
+	}
+	if (verticalRadius < 0.)
+	{
+		throw std::invalid_argument("Vertical radius must be non-negative");
+	}
 }
 
 SPoint CElipse::GetCenter()
 {
-	return SPoint();
+	return m_center;
 }
 
 float CElipse::GetHorizontalRadius()
 {
-	return 0.0f;
+	return m_gorizontalR;
 }
 
 float CElipse::GetVerticalRadius()
 {
-	return 0.0f;
+	return m_verticalR;
 }
