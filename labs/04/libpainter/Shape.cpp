@@ -2,11 +2,12 @@
 #include "Shape.h"
 
 
-CShape::CShape()
+CShape::CShape(Color color)
+	: m_color(color)
 {
 }
 
-
-CShape::~CShape()
+Color CShape::GetColor()
 {
+	return Color();
 }

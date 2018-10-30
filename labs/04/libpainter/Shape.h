@@ -19,7 +19,11 @@ struct SPoint
 class CShape
 {
 public:
-	CShape();
-	virtual ~CShape();
+	CShape() = default;
+	CShape(Color color);
+	virtual ~CShape() = default;
+	Color GetColor();
+private:
+	Color m_color;
 };
 
