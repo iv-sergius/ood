@@ -17,17 +17,17 @@ CRegularPolygon::CRegularPolygon(uint32_t vertexCount, SPoint center, float radi
 	}
 }
 
-uint32_t CRegularPolygon::GetVertexCount()
+uint32_t CRegularPolygon::GetVertexCount() const
 {
 	return m_count;
 }
 
-SPoint CRegularPolygon::GetCenter()
+SPoint CRegularPolygon::GetCenter() const
 {
 	return m_center;
 }
 
-float CRegularPolygon::GetRadius()
+float CRegularPolygon::GetRadius() const
 {
 	return m_radius;
 }

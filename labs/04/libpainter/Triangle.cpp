@@ -9,17 +9,17 @@ CTriangle::CTriangle(SPoint vertex1, SPoint vertex2, SPoint vertex3, Color color
 {
 }
 
-SPoint CTriangle::GetVertex1()
+SPoint CTriangle::GetVertex1() const
 {
 	return m_vertex1;
 }
 
-SPoint CTriangle::GetVertex2()
+SPoint CTriangle::GetVertex2() const
 {
 	return m_vertex2;
 }
 
-SPoint CTriangle::GetVertex3()
+SPoint CTriangle::GetVertex3() const
 {
 	return m_vertex3;
 }

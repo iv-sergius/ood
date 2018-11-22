@@ -22,7 +22,7 @@ public:
 	CShape() = default;
 	CShape(Color color);
 	virtual ~CShape() = default;
-	Color GetColor();
+	Color GetColor() const;
 private:
 	Color m_color;
 };

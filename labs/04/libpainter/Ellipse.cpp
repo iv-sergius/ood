@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "Elipse.h"
+#include "Ellipse.h"
 
-CElipse::CElipse(SPoint center, float gorizontalRadius, float verticalRadius, Color color)
+CEllipse::CEllipse(SPoint center, float gorizontalRadius, float verticalRadius, Color color)
 	: CShape(color)
 	, m_center(center)
 	, m_gorizontalR(gorizontalRadius)
@@ -17,17 +17,17 @@ CElipse::CElipse(SPoint center, float gorizontalRadius, float verticalRadius, Co
 	}
 }
 
-SPoint CElipse::GetCenter()
+SPoint CEllipse::GetCenter() const
 {
 	return m_center;
 }
 
-float CElipse::GetHorizontalRadius()
+float CEllipse::GetHorizontalRadius() const
 {
 	return m_gorizontalR;
 }
 
-float CElipse::GetVerticalRadius()
+float CEllipse::GetVerticalRadius() const
 {
 	return m_verticalR;
 }

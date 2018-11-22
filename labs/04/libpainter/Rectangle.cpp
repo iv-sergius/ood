@@ -9,12 +9,12 @@ CRectangle::CRectangle(SPoint vertex1, SPoint vertex2, Color color)
 {
 }
 
-SPoint CRectangle::GetLeftTop()
+SPoint CRectangle::GetLeftTop() const
 {
 	return SPoint{ m_center.x - m_width / 2.f, m_center.y + m_height / 2.f };
 }
 
-SPoint CRectangle::GetRightBottom()
+SPoint CRectangle::GetRightBottom() const
 {
 	return SPoint{ m_center.x + m_width / 2.f, m_center.y - m_height / 2.f };
 }

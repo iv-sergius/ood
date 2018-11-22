@@ -1,22 +1,10 @@
 #include "stdafx.h"
+#include "TestUtils.h"
 #include "../libpainter/Shape.h"
-#include "../libpainter/Elipse.h"
+#include "../libpainter/Ellipse.h"
 #include "../libpainter/Rectangle.h"
 #include "../libpainter/RegularPolygon.h"
 #include "../libpainter/Triangle.h"
-
-const double PRECISION = 1e-5;
-
-void CheckFloats(const float f1, const float f2)
-{
-	BOOST_CHECK_CLOSE(f1, f2, PRECISION);
-}
-
-void CheckSPoints(const SPoint & point1, const SPoint & point2)
-{
-	BOOST_CHECK_CLOSE(point1.x, point2.x, PRECISION);
-	BOOST_CHECK_CLOSE(point1.y, point2.y, PRECISION);
-}
 
 BOOST_AUTO_TEST_SUITE(Shape)
 	BOOST_AUTO_TEST_CASE(get_correct_color)
@@ -36,15 +24,15 @@ BOOST_AUTO_TEST_SUITE(CShape_inheritor)
 		BOOST_AUTO_TEST_SUITE(constructor_throw)
 			BOOST_AUTO_TEST_CASE(on_negative_horizontal_raidus)
 			{
-				BOOST_CHECK_THROW(CElipse(SPoint(), -1.f, 1.f, Color()), std::invalid_argument);
+				BOOST_CHECK_THROW(CEllipse(SPoint(), -1.f, 1.f, Color()), std::invalid_argument);
 			}
 			BOOST_AUTO_TEST_CASE(on_negative_vertical_raidus)
 			{
-				BOOST_CHECK_THROW(CElipse(SPoint(), 1.f, -1.f, Color()), std::invalid_argument);
+				BOOST_CHECK_THROW(CEllipse(SPoint(), 1.f, -1.f, Color()), std::invalid_argument);
 			}
 		BOOST_AUTO_TEST_SUITE_END()
 
-		auto el = CElipse(SPoint{ 1, -2 }, 2.f, 3.f, Color());
+		auto el = CEllipse(SPoint{ 1, -2 }, 2.f, 3.f, Color());
 		BOOST_AUTO_TEST_CASE(get_correct_Center)
 		{
 			CheckSPoints(el.GetCenter(), SPoint{ 1, -2 });

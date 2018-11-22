@@ -7,7 +7,7 @@ CShape::CShape(Color color)
 {
 }
 
-Color CShape::GetColor()
+Color CShape::GetColor() const
 {
 	return m_color;
 }
