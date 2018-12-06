@@ -18,3 +18,8 @@ SPoint CRectangle::GetRightBottom() const
 {
 	return SPoint{ m_center.x + m_width / 2.f, m_center.y + m_height / 2.f };
 }
+
+void CRectangle::Draw(ICanvas & canvas)
+{
+	canvas.SetColor(GetColor());
+}

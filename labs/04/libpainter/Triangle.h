@@ -9,6 +9,7 @@ public:
 	SPoint GetVertex1() const;
 	SPoint GetVertex2() const;
 	SPoint GetVertex3() const;
+	void Draw(ICanvas & canvas);
 private:
 	SPoint m_vertex1;
 	SPoint m_vertex2;

@@ -9,6 +9,7 @@ public:
 	SPoint GetCenter() const;
 	float GetHorizontalRadius() const;
 	float GetVerticalRadius() const;
+	void Draw(ICanvas & canvas);
 private:
 	SPoint m_center;
 	float m_gorizontalR;

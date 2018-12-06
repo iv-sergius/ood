@@ -178,6 +178,7 @@
     <ClInclude Include="TestUtils.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CanvasTests.cpp" />
     <ClCompile Include="CShapeFactoryTests.cpp" />
     <ClCompile Include="DesignerTests.cpp" />
     <ClCompile Include="libpainter-tests.cpp" />

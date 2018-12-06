@@ -1,20 +1,7 @@
 #pragma once
 
-enum Color
-{
-	Green,
-	Red,
-	Blue,
-	Yellow,
-	Pink,
-	Black,
-};
-
-struct SPoint
-{
-	float x;
-	float y;
-};
+#include "ICanvas.h"
+#include "GeneralGraphics.h"
 
 class CShape
 {
@@ -23,6 +10,8 @@ public:
 	CShape(Color color);
 	virtual ~CShape() = default;
 	Color GetColor() const;
+		
+	void Draw(ICanvas & canvas);
 private:
 	Color m_color;
 };

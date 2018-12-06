@@ -31,3 +31,8 @@ float CEllipse::GetVerticalRadius() const
 {
 	return m_verticalR;
 }
+
+void CEllipse::Draw(ICanvas & canvas)
+{
+	canvas.SetColor(GetColor());
+}
