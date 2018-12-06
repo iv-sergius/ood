@@ -48,14 +48,14 @@ BOOST_AUTO_TEST_SUITE(CShape_inheritor)
 	BOOST_AUTO_TEST_SUITE_END()
 
 	BOOST_AUTO_TEST_SUITE(Rectange)
-		auto rec = CRectangle(SPoint{ 1, 2 }, SPoint{ -3, -4 }, Color());
+		auto rec = CRectangle(SPoint{ 3, 2 }, SPoint{ 1, 4 }, Color());
 		BOOST_AUTO_TEST_CASE(get_correct_LeftTop)
 		{
-			CheckSPoints(rec.GetLeftTop(), SPoint{ -3, 2 });
+			CheckSPoints(rec.GetLeftTop(), SPoint{ 1, 2 });
 		}
 		BOOST_AUTO_TEST_CASE(get_correct_RightBottom)
 		{
-			CheckSPoints(rec.GetRightBottom(), SPoint{ 1, -4 });
+			CheckSPoints(rec.GetRightBottom(), SPoint{ 3, 4 });
 		}
 	BOOST_AUTO_TEST_SUITE_END()
 

@@ -10,5 +10,8 @@
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 
 #include <string>
+#include <sstream>
+#include <map>
+#include <boost/algorithm/string.hpp>
 
 // TODO: reference additional headers your program requires here
