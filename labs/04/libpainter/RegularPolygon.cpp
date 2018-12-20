@@ -32,7 +32,7 @@ float CRegularPolygon::GetRadius() const
 	return m_radius;
 }
 
-void CRegularPolygon::Draw(ICanvas & canvas)
+void CRegularPolygon::Draw(ICanvas & canvas) const
 {
 	canvas.SetColor(GetColor());
 }

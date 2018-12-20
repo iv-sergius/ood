@@ -32,7 +32,7 @@ float CEllipse::GetVerticalRadius() const
 	return m_verticalR;
 }
 
-void CEllipse::Draw(ICanvas & canvas)
+void CEllipse::Draw(ICanvas & canvas) const
 {
 	canvas.SetColor(GetColor());
 }

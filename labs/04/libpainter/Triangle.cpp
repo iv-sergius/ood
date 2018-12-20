@@ -24,7 +24,7 @@ SPoint CTriangle::GetVertex3() const
 	return m_vertex3;
 }
 
-void CTriangle::Draw(ICanvas & canvas)
+void CTriangle::Draw(ICanvas & canvas) const
 {
 	canvas.SetColor(GetColor());
 }

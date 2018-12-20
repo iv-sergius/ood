@@ -19,7 +19,21 @@ SPoint CRectangle::GetRightBottom() const
 	return SPoint{ m_center.x + m_width / 2.f, m_center.y + m_height / 2.f };
 }
 
-void CRectangle::Draw(ICanvas & canvas)
+SPoint CRectangle::GetRightTop() const
+{
+	return SPoint{ m_center.x + m_width / 2.f, m_center.y - m_height / 2.f };
+}
+
+SPoint CRectangle::GetLeftBottom() const
+{
+	return SPoint{ m_center.x - m_width / 2.f, m_center.y + m_height / 2.f };
+}
+
+void CRectangle::Draw(ICanvas & canvas) const
 {
 	canvas.SetColor(GetColor());
+	canvas.DrawLine(GetLeftTop(), GetRightTop());
+	canvas.DrawLine(GetRightTop(), GetRightBottom());
+	canvas.DrawLine(GetRightBottom(), GetLeftBottom());
+	canvas.DrawLine(GetLeftBottom(), GetLeftTop());
 }

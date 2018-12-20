@@ -14,4 +14,3 @@ public:
 private:
 	IShapeFactory & m_factory;
 };
-

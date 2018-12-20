@@ -9,7 +9,7 @@ public:
 	uint32_t GetVertexCount() const;
 	SPoint GetCenter() const;
 	float GetRadius() const;
-	void Draw(ICanvas & canvas);
+	void Draw(ICanvas & canvas) const override;
 private:
 	uint32_t m_count;
 	SPoint m_center;

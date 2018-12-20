@@ -12,7 +12,7 @@ Color CShape::GetColor() const
 	return m_color;
 }
 
-void CShape::Draw(ICanvas & canvas)
+void CShape::Draw(ICanvas & canvas) const
 {
 	canvas.SetColor(GetColor());
 }
