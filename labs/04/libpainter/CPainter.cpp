@@ -4,10 +4,8 @@
 
 void CPainter::DrawPicture(const CPictureDraft & picDrafft, ICanvas & canvas)
 {
-	//for (auto item : picDrafft) // convert from *CShape to CShape
-	for (auto iter = picDrafft.begin(); iter != picDrafft.end(); iter++)
+	for (const auto & item : picDrafft)
 	{
-		//item.Draw(canvas);
-		(*iter).Draw(canvas);
+		item.Draw(canvas);
 	}
 }
