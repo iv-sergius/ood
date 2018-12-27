@@ -1,0 +1,4 @@
+ellipse 100 20 10 10 yellow
+triangle 50 50 100 100 0 100 red
+rectangle 80 100 20 140 red
+regularPolygon 6  40 115 10 blue
