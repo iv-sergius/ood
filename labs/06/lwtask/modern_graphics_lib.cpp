@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include <boost/format.hpp>
 
 #include "modern_graphics_lib.h"
@@ -35,7 +37,8 @@ namespace modern_graphics_lib
 		{
 			throw logic_error("DrawLine is allowed between BeginDraw()/EndDraw() only");
 		}
-		m_out << boost::format(R"(  <line fromX="%1%" fromY="%2" toX="%3%" toY="%4%"/>)") << endl;
+		m_out << boost::format(R"(  <line fromX="%1%" fromY="%2%" toX="%3%" toY="%4%"/>)") 
+			% start.x % start.y % end.x % end.y << endl;
 	}
 
 	// Этот метод должен быть вызван в конце рисования

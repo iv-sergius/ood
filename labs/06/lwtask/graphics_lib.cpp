@@ -1,3 +1,5 @@
+#include "stdafx.h"
+
 #include "graphics_lib.h"
 #include <iostream>
 
