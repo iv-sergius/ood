@@ -7,6 +7,7 @@
 #include "graphics_lib.h"
 #include "shape_drawing_lib.h"
 #include "modern_graphics_lib.h"
+#include "Adapters.h"
 
 using namespace std;
 
@@ -34,11 +35,9 @@ void PaintPictureOnCanvas()
 void PaintPictureOnModernGraphicsRenderer()
 {
 	modern_graphics_lib::CModernGraphicsRenderer renderer(cout);
-	(void)&renderer; // устраняем предупреждение о неиспользуемой переменной
-
-	// TODO: при помощи существующей функции PaintPicture() нарисовать
-	// картину на renderer
-	// Подсказка: используйте паттерн "Адаптер"
+	adapter::CGraphicLibObjectAdapter graphicsAdapter(renderer);
+	shape_drawing_lib::CCanvasPainter painter(graphicsAdapter);
+	PaintPicture(painter);
 }
 }
 

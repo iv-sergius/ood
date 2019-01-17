@@ -7,6 +7,7 @@
 
 using namespace modern_graphics_lib;
 using namespace graphics_lib;
+using namespace adapter;
 
 struct ModernLibRenderer
 {

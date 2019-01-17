@@ -3,10 +3,10 @@
 #include "graphics_lib.h"
 #include "modern_graphics_lib.h"
 
-namespace graphics_lib
+namespace adapter
 {
 
-	class CGraphicLibObjectAdapter : public ICanvas
+	class CGraphicLibObjectAdapter : public graphics_lib::ICanvas
 	{
 	public:
 		CGraphicLibObjectAdapter(modern_graphics_lib::CModernGraphicsRenderer & renderer);
@@ -18,7 +18,7 @@ namespace graphics_lib
 		modern_graphics_lib::CPoint m_lastPoint;
 	};
 
-	class CGraphicsLibClassAdapter : public modern_graphics_lib::CModernGraphicsRenderer, virtual public ICanvas
+	class CGraphicsLibClassAdapter : public modern_graphics_lib::CModernGraphicsRenderer, virtual public graphics_lib::ICanvas
 	{
 		CGraphicsLibClassAdapter(modern_graphics_lib::CModernGraphicsRenderer & renderer);
 		void MoveTo(int x, int y);

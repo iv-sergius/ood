@@ -5,7 +5,7 @@
 
 //using namespace modern_graphics_lib;
 
-namespace graphics_lib
+namespace adapter
 {
 	CGraphicLibObjectAdapter::CGraphicLibObjectAdapter(modern_graphics_lib::CModernGraphicsRenderer & renderer)
 		: m_renderer(renderer)
