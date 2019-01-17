@@ -12,7 +12,7 @@ struct ModernLibRenderer
 {
 	std::ostringstream outString;
 	CModernGraphicsRenderer renderer = CModernGraphicsRenderer(outString);
-	CGraphicLibObjestAdapter adapter = CGraphicLibObjestAdapter(renderer);
+	CGraphicLibObjectAdapter adapter = CGraphicLibObjectAdapter(renderer);
 };
 
 BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
@@ -27,7 +27,7 @@ BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
 				adapter.MoveTo(1, 2);
 				adapter.LineTo(3, 4);
 			}
-			BOOST_CHECK_EQUAL(outString,
+			BOOST_CHECK_EQUAL(outString.str(),
 				"<draw>\n"
 				"  <line fromX=\"1\" fromY=\"2\" toX=\"3\" toY=\"4\"/>\n"
 				"</draw>\n"
@@ -40,7 +40,7 @@ BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
 				adapter.MoveTo(3, 4);
 				adapter.LineTo(5, 6);
 			}
-			BOOST_CHECK_EQUAL(outString,
+			BOOST_CHECK_EQUAL(outString.str(),
 				"<draw>\n"
 				"  <line fromX=\"1\" fromY=\"2\" toX=\"3\" toY=\"4\"/>\n"
 				"</draw>\n"
@@ -59,7 +59,7 @@ BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
 				adapter.LineTo(3, 4);
 				adapter.LineTo(5, 6);
 			}
-			BOOST_CHECK_EQUAL(outString, 
+			BOOST_CHECK_EQUAL(outString.str(),
 				"<draw>\n"
 				"  <line fromX=\"1\" fromY=\"2\" toX=\"3\" toY=\"4\"/>\n"
 				"  <line fromX=\"3\" fromY=\"4\" toX=\"5\" toY=\"6\"/>\n"
@@ -74,7 +74,7 @@ BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
 				adapter.LineTo(5, 6);
 				adapter.LineTo(7, 8);
 			}
-			BOOST_CHECK_EQUAL(outString,
+			BOOST_CHECK_EQUAL(outString.str(),
 				"<draw>\n"
 				"  <line fromX=\"3\" fromY=\"4\" toX=\"5\" toY=\"6\"/>\n"
 				"  <line fromX=\"5\" fromY=\"6\" toX=\"7\" toY=\"8\"/>\n"
@@ -89,7 +89,7 @@ BOOST_FIXTURE_TEST_SUITE(ModernLibAdapter, ModernLibRenderer)
 				adapter.MoveTo(5, 6);
 				adapter.LineTo(7, 8);
 			}
-			BOOST_CHECK_EQUAL(outString,
+			BOOST_CHECK_EQUAL(outString.str(),
 				"<draw>\n"
 				"  <line fromX=\"1\" fromY=\"2\" toX=\"3\" toY=\"4\"/>\n"
 				"  <line fromX=\"3\" fromY=\"4\" toX=\"5\" toY=\"6\"/>\n"

@@ -6,13 +6,13 @@
 namespace graphics_lib
 {
 
-	class CGraphicLibObjestAdapter : public ICanvas
+	class CGraphicLibObjectAdapter : public ICanvas
 	{
 	public:
-		CGraphicLibObjestAdapter(modern_graphics_lib::CModernGraphicsRenderer & renderer);
+		CGraphicLibObjectAdapter(modern_graphics_lib::CModernGraphicsRenderer & renderer);
 		void MoveTo(int x, int y);
 		void LineTo(int x, int y);
-		~CGraphicLibObjestAdapter() = default;
+		~CGraphicLibObjectAdapter();
 	private:
 		modern_graphics_lib::CModernGraphicsRenderer & m_renderer;
 		modern_graphics_lib::CPoint m_lastPoint;
