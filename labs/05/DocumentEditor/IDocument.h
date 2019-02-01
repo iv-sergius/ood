@@ -59,7 +59,7 @@ public:
 Элемент документа. Позволяет получить доступ к изображению или параграфу
 */
 class CDocumentItem : public CConstDocumentItem
-{
+{    
 public:
 	// Возвращает указатель на изображение, либо nullptr, если элемент не является изображением
 	shared_ptr<IImage> GetImage();

@@ -147,7 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="CDocument.cpp" />
+    <ClCompile Include="Items.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CDocument.h" />
